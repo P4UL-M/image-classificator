@@ -23,11 +23,6 @@ function main() {
     const client = new mlService.ImageClassificator('localhost:9090', grpc.credentials.createInsecure());
 
     classifyFile(client, 'public/images/test.jpg');
-
-    // wait for the call to end
-    setTimeout(() => {
-        console.log('Done');
-    }, 5000);
 }
 /**
  * Classifies a file by sending its content to the gRPC server.

@@ -1,3 +1,4 @@
+import asyncio
 from typing import override, AsyncIterator
 import generated.mlService_pb2_grpc as ml_grpc
 from generated.mlService_pb2 import FileRequest, ClassificationResponse
@@ -19,5 +20,8 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         print(f'File received with {len(file_data)} bytes')
         # Here you should implement the logic to classify the image
         # For now, we will return Dog
+
+        # wait for 3 seconds to simulate the classification
+        await asyncio.sleep(3)
 
         return ClassificationResponse(class_name='Dog', confidence=0.9)
