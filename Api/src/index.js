@@ -54,10 +54,10 @@ function classifyFileWithPath(client, file) {
  * Classifies a file by sending its content to the gRPC server.
  *
  * @param {import('@grpc/grpc-js').GrpcObject} client - The gRPC client instance.
- * @param {Stream} stream - The path to the file to be classified.
- * @param {import('express').Response} req - The Express response object.
+ * @param {import('express').Request} req - The path to the file to be classified.
+ * @param {import('express').Response} res - The Express response object.
  */
-function classifyFileWithStream(client, stream, res) {
+function classifyFileWithStream(client, req, res) {
     const call = client.ClassifyFile((error, response) => {
         if (error) {
             console.error(error);
@@ -68,22 +68,21 @@ function classifyFileWithStream(client, stream, res) {
         }
     });
 
-    stream.on('data', (chunk) => {
-        console.log('Sending chunk');
+    req.on('data', (chunk) => {
         try {
             call.write({ file_content: chunk });
         } catch (err) {
             console.error('Error sending chunk:', err.message || err);
-            stream.destroy();
+            req.destroy();
             call.end();
         }
     });
 
-    stream.on('end', () => {
+    req.on('end', () => {
         call.end();
     });
 
-    stream.on('error', (err) => {
+    req.on('error', (err) => {
         console.error('Stream error:', err.message || err);
         call.end();
     });
@@ -108,7 +107,7 @@ function validateFileTypeAndSize(req, res, next) {
 
     req.on('data', (chunk) => {
         totalSize += chunk.length;
-        console.log('Received chunk');
+
         // Reject if file size exceeds the limit
         if (totalSize > MAX_FILE_SIZE) {
             req.destroy(new Error('File size exceeds limit.'));
