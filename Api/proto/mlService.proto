@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package imageclassificator;
+
+// The request message containing the file to be classified.
+message FileRequest {
+    bytes file_content = 1;
+}
+
+// The response message containing the classification result.
+message ClassificationResponse {
+    string class_name = 1;
+    float confidence = 2;
+}
+
+// The service definition.
+service ImageClassificator {
+    // Streams a file to the ML server and gets the classification result.
+    rpc ClassifyFile(stream FileRequest) returns (ClassificationResponse);
+}

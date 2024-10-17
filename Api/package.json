@@ -1,0 +1,23 @@
+{
+    "name": "ml-service-api",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "src/index.js",
+    "scripts": {
+        "serve": "node src/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@grpc/grpc-js": "^1.12.2",
+        "@grpc/proto-loader": "^0.7.13",
+        "express": "^4.21.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.25.7",
+        "@babel/core": "^7.25.8",
+        "@babel/preset-env": "^7.25.8"
+    }
+}
