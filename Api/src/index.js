@@ -10,8 +10,21 @@ connectToDatabase().then(createTables).then(populateDatabase).then(() => {
     console.log('Database initialized');
 }).catch((error) => { console.error('Error initializing database:', error.message || error); });
 
+const allowedOrigins = [
+    'http://localhost',  // For Frontend server
+    'http://localhost:3000'  // For API server
+];
+
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            console.log('Origin allowed:', origin);
+            callback(null, true);
+        } else {
+            console.log('Origin not allowed:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204
