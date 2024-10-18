@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 function LogIn() {
     const [showModal, setShowModal] = useState(false);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -19,7 +19,25 @@ function LogIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setError('');
-        console.log('Form submitted:', { username, password });
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    closeModal();
+                } else {
+                    setError('Error logging in');
+                }
+            })
+            .catch((error) => {
+                setError('Error logging in');
+
+                console.error('Error logging in:', error);
+            });
     }
 
     useEffect(() => {
@@ -45,13 +63,13 @@ function LogIn() {
                     <div className='modalContainer' onClick={e => e.stopPropagation()}>
                         <h2>Log In</h2>
                         <form onSubmit={handleSubmit}>
-                            <label htmlFor='username'>Username:</label>
+                            <label htmlFor='email'>Email:</label>
                             <input
                                 type='text'
-                                id='username'
-                                name='username'
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                id='email'
+                                name='email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                             <label htmlFor='password'>Password:</label>

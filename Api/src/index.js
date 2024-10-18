@@ -14,13 +14,11 @@ connectToDatabase().then(createTables).then(populateDatabase).then(() => {
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json())
+    .use(cors())
     .use(authRouter)
     .use(classifyRouter)
     .use(userRouter)
     .use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
-// cors from all origins
-app.use(cors());
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

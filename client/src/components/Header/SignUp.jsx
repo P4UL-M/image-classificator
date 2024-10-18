@@ -24,7 +24,25 @@ function SignUp() {
             setError('Passwords do not match');
         } else {
             setError('');
-            console.log('Form submitted:', { email, username, password });
+            fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, username, password }),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        closeModal();
+                    } else {
+                        setError('Error signing up');
+                    }
+                })
+                .catch((error) => {
+                    setError('Error signing up');
+
+                    console.error('Error signing up:', error);
+                });
         }
     };
 
