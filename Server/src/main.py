@@ -11,20 +11,23 @@ async def serve():
     port = 9090
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     ml_grpc.add_ImageClassificatorServicer_to_server(mlServer(), server)
-    server.add_insecure_port(f'[::]:{port}')
+    server.add_insecure_port(f'0.0.0.0:{port}')
     await server.start()
     print(f'Starting server on port {port}')
-    await server.wait_for_termination()
-
+    try:
+        await server.wait_for_termination()
+    except asyncio.CancelledError:
+        print("Server stopped")
+        await server.stop(0)
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        raise e
 
 if __name__ == '__main__':
     logging.basicConfig()
-    # Create an event loop and run the server
-    loop = asyncio.get_event_loop()
+    server = None  # Declare server in outer scope
     try:
-        loop.run_until_complete(serve())
+        # Run the server and store the server object
+        server = asyncio.run(serve())
     except KeyboardInterrupt:
-        print("Shutting down server...")
-    finally:
-        loop.run_until_complete(loop.shutdown_asyncgens())
-        loop.close()
+        print("Server stopped by the user")

@@ -12,10 +12,10 @@ from service.db_service import DBService
 MAX_MESSAGE_SIZE = 10 * 1024 * 1024  # 10MB
 IMAGE_FOLDER = pathlib.Path('data/images')
 
-db = DBService()
-
 
 class mlServer(ml_grpc.ImageClassificatorServicer):
+
+    db = DBService()
 
     @override
     async def ClassifyFile(self, request_iterator: AsyncIterator[FileRequest], context: grpc.ServicerContext):
@@ -44,7 +44,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         await asyncio.sleep(3)
 
         # insert the image information into the database
-        db.insert_image({
+        mlServer.db.insert_image({
             'file_url': str(file_url),
             'classification': 'Dog',
             'confidence': 0.9
@@ -52,3 +52,6 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
 
         # return the result
         return ClassificationResponse(class_name='Dog', confidence=0.9)
+
+    def __del__(self):
+        self.db.__del__()
