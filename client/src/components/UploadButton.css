@@ -1,0 +1,53 @@
+#file {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #3a3a3a;
+    border: 1px solid #555555;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #555555;
+}
+
+.custom-file-upload:active {
+    background-color: #777777;
+}
+
+#selectedFile {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+@media (prefers-color-scheme: light) {
+    .custom-file-upload {
+        background-color: #ffffff;
+        color: #213547;
+        border: 1px solid #bcbec0;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #e9ecef;
+        color: #213547;
+    }
+
+    .custom-file-upload:active {
+        background-color: #dcdcdc;
+    }
+
+    #selectedFile {
+        color: #213547;
+    }
+}
