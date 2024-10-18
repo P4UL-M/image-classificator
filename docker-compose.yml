@@ -58,7 +58,7 @@ services:
         depends_on:
             - restapi
         environment:
-            - REACT_APP_API_URL=http://localhost:3000
+            - VITE_BASE_URL=http://localhost:3000
 
 volumes:
     mongo-data:
