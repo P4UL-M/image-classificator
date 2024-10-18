@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
 
 export async function createUser(username, email, password) {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -22,4 +22,13 @@ export async function authenticateUser(email, password) {
     }
 
     return jwt.sign({ id: user.id }, JWT_SECRET);
+}
+
+export async function getUserFromToken(token) {
+    const { id } = jwt.verify(token, JWT_SECRET);
+    return sequelize.models.user.findByPk(id);
+}
+
+export async function listUsers() {
+    return sequelize.models.user.findAll();
 }

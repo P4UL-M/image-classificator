@@ -1,8 +1,10 @@
 import { Sequelize } from "sequelize";
+import bcrypt from "bcrypt";
 
-const dbUrl = process.env.DATABASE_URL || 'postgres://postgres:password@localhost:5432/postgres';
+const DB_URL = process.env.DATABASE_URL || 'postgres://postgres:password@localhost:5432/postgres';
+const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
 
-export const sequelize = new Sequelize(dbUrl);
+export const sequelize = new Sequelize(DB_URL, { logging: false });
 
 export async function connectToDatabase() {
     try {
@@ -13,7 +15,7 @@ export async function connectToDatabase() {
     }
 }
 
-export function createTables() {
+export async function createTables() {
     sequelize.define('user', {
         username: {
             type: Sequelize.STRING,
@@ -75,5 +77,12 @@ export function createTables() {
         },
     })
 
-    sequelize.sync({ force: true })
+    await sequelize.sync({ force: true })
+}
+
+export async function populateDatabase() {
+    await sequelize.models.user.bulkCreate([
+        { username: 'user1', email: 'user1@deway.fr', password: await bcrypt.hash('password1', SALT_ROUNDS), balance: 100 },
+        { username: 'user2', email: 'user2@deway.fr', password: await bcrypt.hash('password2', SALT_ROUNDS), balance: 200 }
+    ])
 }

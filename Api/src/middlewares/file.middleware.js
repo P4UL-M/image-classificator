@@ -13,7 +13,7 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB size limit
  * @throws {Error} 413 - File size exceeds limit.
  */
 export function validateFileTypeAndSize(req, res, next) {
-    const allowedMimeTypes = ['image/png', 'image/jpeg'];
+    const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
     // Check if the request is an accepted mime type
     if (!allowedMimeTypes.includes(req.headers['content-type'])) {
