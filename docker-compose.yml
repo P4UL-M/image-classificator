@@ -48,6 +48,17 @@ services:
             JWT_SECRET: secret
             GRPC_HOST: grpc-server
             GRPC_PORT: 9090
+    frontend:
+        build: ./Client
+        container_name: frontend
+        ports:
+            - "80:80"
+        networks:
+            - image_classificator
+        depends_on:
+            - restapi
+        environment:
+            - REACT_APP_API_URL=http://localhost:3000
 
 volumes:
     mongo-data:
