@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import bcrypt from "bcrypt";
+import { logger } from "../utils/logger.js";
 
 const DB_URL = process.env.DATABASE_URL || 'postgres://postgres:password@localhost:5432/postgres';
 const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
@@ -9,9 +10,9 @@ export const sequelize = new Sequelize(DB_URL, { logging: false });
 export async function connectToDatabase() {
     try {
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+        logger.info('Connection has been established successfully.');
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        logger.error('Unable to connect to the database:', error);
     }
 }
 

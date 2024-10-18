@@ -76,6 +76,7 @@
  */
 import express from 'express';
 import { authenticateUser, createUser } from '../services/user.service.js';
+import { logger } from '../utils/logger.js';
 
 const authRouter = express.Router();
 
@@ -91,7 +92,7 @@ authRouter.post('/register', async (req, res) => {
         await createUser(username, email, password);
         res.status(201).send('User registered successfully.');
     } catch (error) {
-        console.error('Error registering user:', error.message || error);
+        logger.error('Error registering user:' + error.message || error);
         res.status(500).send('Error registering user.');
     }
 });
@@ -103,7 +104,7 @@ authRouter.post('/login', async (req, res) => {
         const token = await authenticateUser(email, password);
         res.status(200).send({ token });
     } catch (error) {
-        console.error('Error authenticating user:', error.message || error);
+        logger.error('Error authenticating user:' + error.message || error);
         res.status(401).send('Invalid credentials.');
     }
 });

@@ -3,6 +3,7 @@ import * as protoLoader from '@grpc/proto-loader';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { logger } from '../utils/logger.js';
 
 // Get the path of the current file
 const __filename = fileURLToPath(import.meta.url);
@@ -43,9 +44,9 @@ export function createGrpcClient(host = HOST, port = PORT, protoPath = PROTO_PAT
 export function classifyFileWithPath(client, file) {
     const call = client.ClassifyFile((error, response) => {
         if (error) {
-            console.error(error);
+            logger.error(error);
         } else {
-            console.log(response);
+            logger.info(response);
         }
     });
 
@@ -69,20 +70,19 @@ export function classifyFileWithPath(client, file) {
 export function classifyFileWithStream(client, req, res) {
     const call = client.ClassifyFile((error, response) => {
         if (error) {
-            console.error(error);
+            logger.error(error);
             res.status(500).send('Error processing request.');
         } else {
-            console.log("Response received from server");
+            logger.info("Response received from server");
             res.status(200).send(response);
         }
     });
 
     req.on('data', (chunk) => {
         try {
-            console.log('Sending chunk');
             call.write({ file_content: chunk });
         } catch (err) {
-            console.error('Error sending chunk:', err.message || err);
+            logger.error('Error sending chunk:', err.message || err);
             req.destroy();
             call.end();
         }
@@ -93,7 +93,7 @@ export function classifyFileWithStream(client, req, res) {
     });
 
     req.on('error', (err) => {
-        console.error('Stream error:', err.message || err);
+        logger.error('Stream error:', err.message || err);
         call.end();
     });
 }

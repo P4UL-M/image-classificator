@@ -33,6 +33,37 @@
  *       500:
  *         description: Erreur lors de la récupération de la liste des utilisateurs
  */
+
+/**
+ * @swagger
+ * /whoami:
+ *   get:
+ *     summary: Récupère les informations de l'utilisateur authentifié
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Informations de l'utilisateur récupérées avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: L'ID de l'utilisateur
+ *                 username:
+ *                   type: string
+ *                   description: Le nom d'utilisateur
+ *                 email:
+ *                   type: string
+ *                   description: L'adresse email de l'utilisateur
+ *       401:
+ *         description: Non autorisé
+ *       500:
+ *         description: Erreur lors de la récupération des informations de l'utilisateur
+ */
 import express from 'express';
 import { getUser, listUsers } from '../services/user.service.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
@@ -40,13 +71,8 @@ import { authMiddleware } from '../middlewares/auth.middleware.js';
 const userRouter = express.Router();
 
 userRouter.get('/users', async (_, res) => {
-    try {
-        const users = await listUsers();
-        res.json(users);
-    } catch (err) {
-        console.error('Error listing users:', err.message || err);
-        res.status(500).send('Error listing users.');
-    }
+    const users = await listUsers();
+    res.json(users);
 });
 
 userRouter.get('/whoami', authMiddleware, async (req, res) => {

@@ -45,15 +45,16 @@ import express from 'express';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 import { validateFileTypeAndSize } from '../middlewares/file.middleware.js';
 import { classifyFileWithStream, createGrpcClient } from '../services/grpc.service.js';
+import { logger } from '../utils/logger.js';
 
 const classifyRouter = express.Router();
 const grpcClient = createGrpcClient();
 
-grpcClient.waitForReady(Date.now() + 10000, (error) => {
+grpcClient.waitForReady(Date.now() + 3000, (error) => {
     if (error) {
-        console.error('Error connecting to gRPC server:', error);
+        logger.error('Error connecting to gRPC server: ' + error.message || error);
     } else {
-        console.log('Connected to gRPC server');
+        logger.info('Connected to gRPC server');
     }
 });
 
@@ -62,7 +63,7 @@ classifyRouter.post('/classify', authMiddleware, validateFileTypeAndSize, (req, 
         // Directly pass the request stream (req) to the classifyFileWithStream function
         classifyFileWithStream(grpcClient, req, res);
     } catch (err) {
-        console.error('Error processing request:', err.message || err);
+        logger.error('Error processing request: ' + err.message || err);
         res.status(500).send('Error processing request.');
     }
 });
