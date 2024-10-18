@@ -4,7 +4,6 @@ from typing import override, AsyncIterator
 import generated.mlService_pb2_grpc as ml_grpc
 from generated.mlService_pb2 import FileRequest, ClassificationResponse
 import grpc
-import logging
 import uuid
 
 from service.db_service import DBService

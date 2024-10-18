@@ -47,7 +47,15 @@ import { validateFileTypeAndSize } from '../middlewares/file.middleware.js';
 import { classifyFileWithStream, createGrpcClient } from '../services/grpc.service.js';
 
 const classifyRouter = express.Router();
-const grpcClient = createGrpcClient(9090);
+const grpcClient = createGrpcClient();
+
+grpcClient.waitForReady(Date.now() + 10000, (error) => {
+    if (error) {
+        console.error('Error connecting to gRPC server:', error);
+    } else {
+        console.log('Connected to gRPC server');
+    }
+});
 
 classifyRouter.post('/classify', authMiddleware, validateFileTypeAndSize, (req, res) => {
     try {

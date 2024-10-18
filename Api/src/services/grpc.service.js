@@ -9,17 +9,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PROTO_PATH = path.join(__dirname, '../../protos/mlService.proto');
-const PORT = process.env.PORT || 9090;
+const PORT = process.env.GRPC_PORT || 9090;
+const HOST = process.env.GRPC_HOST || 'localhost';
 
 /**
  * Creates a gRPC client for the ImageClassificator service.
  * 
+ * @param {string} [host=HOST] - The host to connect to.
  * @param {number} [port=PORT] - The port number to connect to.
  * @param {string} [protoPath=PROTO_PATH] - The path to the .proto file.
  * 
  * @returns {import('@grpc/grpc-js').GrpcObject} The gRPC client instance.
  */
-export function createGrpcClient(port = PORT, protoPath = PROTO_PATH) {
+export function createGrpcClient(host = HOST, port = PORT, protoPath = PROTO_PATH) {
     const packageDefinition = protoLoader.loadSync(protoPath, {
         keepCase: true,
         longs: String,
@@ -29,7 +31,7 @@ export function createGrpcClient(port = PORT, protoPath = PROTO_PATH) {
     });
     const mlService = grpc.loadPackageDefinition(packageDefinition).imageclassificator;
 
-    return new mlService.ImageClassificator(`localhost:${port}`, grpc.credentials.createInsecure());
+    return new mlService.ImageClassificator(`${host}:${port}`, grpc.credentials.createInsecure());
 }
 
 /**
@@ -49,7 +51,6 @@ export function classifyFileWithPath(client, file) {
 
     const fileContent = fs.createReadStream(file);
     fileContent.on('data', (chunk) => {
-        console.log('Sending chunk');
         call.write({ file_content: chunk });
     });
 

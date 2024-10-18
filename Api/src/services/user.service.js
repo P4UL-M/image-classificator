@@ -17,6 +17,11 @@ export async function createUser(username, email, password) {
     return sequelize.models.user.create({ username, email, password: hashedPassword, balance: 0 });
 }
 
+/**
+ * Récupère un utilisateur par son identifiant.
+ * @param {number} id - L'identifiant de l'utilisateur.
+ * @returns {Promise<Object>} - Une promesse qui résout l'objet utilisateur trouvé, sans le mot de passe.
+ */
 export async function getUser(id) {
     return sequelize.models.user.findByPk(id, { attributes: { exclude: ['password'] } });
 }
