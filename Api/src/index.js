@@ -1,7 +1,7 @@
 import express from 'express';
 import { validateFileTypeAndSize } from './middlewares/file.middleware.js';
 import { classifyFileWithStream, createGrpcClient } from './services/grpc.service.js';
-import { sequelize, connectToDatabase, createTables } from './services/db.service.js';
+import { connectToDatabase, createTables } from './services/db.service.js';
 import { authenticateUser, createUser } from './services/user.service.js';
 import { authMiddleware } from './middlewares/auth.middleware.js';
 
