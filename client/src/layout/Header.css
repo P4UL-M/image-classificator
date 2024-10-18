@@ -18,45 +18,9 @@
     /* background-color: red; */
 }
 
-.LogIn {
-    padding: 0.5rem 1rem;
-    background-color: #3a3a3a;
-    color: #ffffff;
-    border: 1px solid #555555;
-    border-radius: 0.25rem;
-    font-weight: 500;
-    font-size: medium;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.LogIn:hover {
-    background-color: #555555;
-    color: #ffffff;
-}
-
-.LogIn:active {
-    background-color: #777777;
-}
-
 @media (prefers-color-scheme: light) {
     .header {
       background-color: #f8f9fa;
       border-bottom: 1px solid #e9ecef;
     }
-
-    .LogIn {
-        background-color: #ffffff;
-        color: #213547;
-        border: 1px solid #bcbec0;
-    }
-
-    .LogIn:hover {
-        background-color: #e9ecef;
-        color: #213547;
-    }
-
-    .LogIn:active {
-        background-color: #dcdcdc;
-    }
-  }
+}
