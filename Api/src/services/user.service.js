@@ -17,6 +17,10 @@ export async function createUser(username, email, password) {
     return sequelize.models.user.create({ username, email, password: hashedPassword, balance: 0 });
 }
 
+export async function getUser(id) {
+    return sequelize.models.user.findByPk(id, { attributes: { exclude: ['password'] } });
+}
+
 /**
  * Authentifie un utilisateur.
  * @param {string} email - L'adresse email de l'utilisateur.
@@ -54,5 +58,5 @@ export async function getUserFromToken(token) {
  * @returns {Promise<Array<object>>} La liste de tous les utilisateurs.
  */
 export async function listUsers() {
-    return sequelize.models.user.findAll();
+    return sequelize.models.user.findAll({ attributes: { exclude: ['password'] } });
 }

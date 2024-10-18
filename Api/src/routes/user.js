@@ -34,7 +34,8 @@
  *         description: Erreur lors de la récupération de la liste des utilisateurs
  */
 import express from 'express';
-import { listUsers } from '../services/user.service.js';
+import { getUser, listUsers } from '../services/user.service.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const userRouter = express.Router();
 
@@ -46,6 +47,12 @@ userRouter.get('/users', async (_, res) => {
         console.error('Error listing users:', err.message || err);
         res.status(500).send('Error listing users.');
     }
+});
+
+userRouter.get('/whoami', authMiddleware, async (req, res) => {
+    const user = await getUser(req.user.id);
+    req.user = user;
+    res.json(user);
 });
 
 export default userRouter;
