@@ -78,6 +78,7 @@ export function classifyFileWithStream(client, req, res) {
 
     req.on('data', (chunk) => {
         try {
+            console.log('Sending chunk');
             call.write({ file_content: chunk });
         } catch (err) {
             console.error('Error sending chunk:', err.message || err);
