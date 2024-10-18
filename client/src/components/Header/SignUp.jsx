@@ -1,5 +1,6 @@
 import './Register.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AxiosContext } from '../../providers/AxiosContext';
 
 function SignUp() {
     const [showModal, setShowModal] = useState(false);
@@ -8,6 +9,7 @@ function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const axios = useContext(AxiosContext);
 
     const openModal = () => {
         setShowModal(true);
@@ -18,31 +20,38 @@ function SignUp() {
         setError('');
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (password !== confirmPassword) {
             setError('Passwords do not match');
         } else {
             setError('');
-            fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, username, password }),
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        closeModal();
-                    } else {
-                        setError('Error signing up');
-                    }
-                })
-                .catch((error) => {
-                    setError('Error signing up');
+            // fetch('http://localhost:3000/register', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ email, username, password }),
+            // })
+            //     .then((response) => {
+            //         if (response.ok) {
+            //             closeModal();
+            //         } else {
+            //             setError('Error signing up');
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         setError('Error signing up');
 
-                    console.error('Error signing up:', error);
-                });
+            //         console.error('Error signing up:', error);
+            //     });
+            try {
+                await axios.post('/register', { email, username, password });
+                closeModal();
+            } catch (error) {
+                setError('Error signing up');
+                console.error('Error signing up:', error);
+            }
         }
     };
 

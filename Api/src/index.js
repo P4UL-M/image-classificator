@@ -10,11 +10,17 @@ connectToDatabase().then(createTables).then(populateDatabase).then(() => {
     console.log('Database initialized');
 }).catch((error) => { console.error('Error initializing database:', error.message || error); });
 
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+};
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-app.use(express.json())
-    .use(cors())
+app.use(cors(corsOptions))
+    .use(express.json())
     .use(authRouter)
     .use(classifyRouter)
     .use(userRouter)
