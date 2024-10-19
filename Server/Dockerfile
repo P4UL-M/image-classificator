@@ -6,6 +6,8 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY . /app
+
+# Copy wait-for-it.sh into the container at /app
 COPY wait-for-it.sh /app/wait-for-it.sh
 
 # Make wait-for-it.sh executable
@@ -18,4 +20,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 9090
 
 # Run wait-for-it.sh to wait for MongoDB to be ready, then run app.py
-CMD ["./wait-for-it.sh", "mongo:27017", "--", "python", "src/main.py"]
+CMD ["./wait-for-it.sh", "-t", "3", "mongo:27017", "--", "python", "src/main.py"]
