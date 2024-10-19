@@ -34,11 +34,6 @@ services:
             - "5432:5432"
         networks:
             - image_classificator
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U postgres"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
     restapi:
         build: ./Api
         container_name: restapi
@@ -49,10 +44,27 @@ services:
         depends_on:
             - postgres_db
         environment:
-            DATABASE_URL: postgres://postgres:postgres@postgres_db:5432/image_classificator
             JWT_SECRET: secret
             GRPC_HOST: grpc-server
             GRPC_PORT: 9090
+            PROD_DB_USERNAME: postgres
+            PROD_DB_PASSWORD: postgres
+            PROD_DB_NAME: image_classificator
+            PROD_DB_HOST: postgres_db
+    migration:
+        build: ./Api
+        container_name: migration
+        networks:
+            - image_classificator
+        depends_on:
+            - postgres_db
+        command: ["/usr/wait-for-it.sh", "-t", "3", "postgres:5432", "--", "npm", "run", "init"]
+        environment:
+            PROD_DB_USERNAME: postgres
+            PROD_DB_PASSWORD: postgres
+            PROD_DB_NAME: image_classificator
+            PROD_DB_HOST: postgres_db
+            NODE_ENV: production
     frontend:
         build: ./Client
         container_name: frontend

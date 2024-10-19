@@ -4,10 +4,11 @@
     "main": "src/index.js",
     "type": "commonjs",
     "scripts": {
-        "serve": "node --env-file=.env src/index.js",
-        "init": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+        "start:dev": "node --env-file=.env src/index.js",
+        "start:prod": "NODE_ENV=production node src/index.js",
+        "init": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
         "clear": "npx sequelize-cli db:seed:undo:all",
-        "test": "node --env-file=.env node_modules/jest/bin/jest.js --detectOpenHandles "
+        "test": "node --env-file=.env node_modules/jest/bin/jest.js --detectOpenHandles"
     },
     "author": "",
     "license": "ISC",
