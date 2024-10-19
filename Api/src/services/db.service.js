@@ -1,13 +1,11 @@
-import { Sequelize } from "sequelize";
-import bcrypt from "bcrypt";
-import { logger } from "../utils/logger.js";
+const { logger } = require("../utils/logger");
+const db = require("../../models");
 
-const DB_URL = process.env.DATABASE_URL || 'postgres://postgres:password@localhost:5432/postgres';
-const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
+const sequelize = db.sequelize
 
-export const sequelize = new Sequelize(DB_URL, { logging: false });
+exports.sequelize = sequelize;
 
-export async function connectToDatabase() {
+async function connectToDatabase() {
     try {
         await sequelize.authenticate();
         logger.info('Connection has been established successfully.');
@@ -16,74 +14,4 @@ export async function connectToDatabase() {
     }
 }
 
-export async function createTables() {
-    sequelize.define('user', {
-        username: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        email: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
-        },
-        password: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        balance: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        }
-    })
-
-    sequelize.define('order', {
-        date: {
-            type: Sequelize.DATE,
-            allowNull: false
-        },
-        userId: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        status: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        nbTokens: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        totalPrice: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        }
-    })
-
-    sequelize.define('query', {
-        date: {
-            type: Sequelize.DATE,
-            allowNull: false
-        },
-        userId: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        query: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-    })
-
-    await sequelize.sync({ force: true })
-}
-
-export async function populateDatabase() {
-    await sequelize.models.user.bulkCreate([
-        { username: 'user1', email: 'user1@deway.fr', password: await bcrypt.hash('password1', SALT_ROUNDS), balance: 100 },
-        { username: 'user2', email: 'user2@deway.fr', password: await bcrypt.hash('password2', SALT_ROUNDS), balance: 200 }
-    ])
-}
+exports.connectToDatabase = connectToDatabase;

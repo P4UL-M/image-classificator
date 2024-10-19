@@ -74,9 +74,9 @@
  *       500:
  *         description: Erreur lors de l'authentification de l'utilisateur
  */
-import express from 'express';
-import { authenticateUser, createUser } from '../services/user.service.js';
-import { logger } from '../utils/logger.js';
+const express = require('express');
+const { authenticateUser, createUser } = require('../services/user.service.js');
+const { logger } = require('../utils/logger.js');
 
 const authRouter = express.Router();
 
@@ -109,4 +109,4 @@ authRouter.post('/login', async (req, res) => {
     }
 });
 
-export default authRouter;
+module.exports = authRouter;

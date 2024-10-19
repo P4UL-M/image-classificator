@@ -1,16 +1,13 @@
-import express from 'express';
-import cors from 'cors';
-import { connectToDatabase, createTables, populateDatabase } from './services/db.service.js';
-import authRouter from './routes/auth.js';
-import classifyRouter from './routes/classify.js';
-import { specs, swaggerUi } from './swagger.js';
-import userRouter from './routes/user.js';
-import { loggerMiddleware } from './middlewares/logger.middleware.js';
-import { logger } from './utils/logger.js';
-
-connectToDatabase().then(createTables).then(populateDatabase).then(() => {
-    logger.info('Database initialized');
-}).catch((error) => { logger.error('Error initializing database:', error.message || error); });
+const express = require('express');
+const cors = require('cors');
+const { connectToDatabase } = require('./services/db.service');
+const authRouter = require('./routes/auth');
+const classifyRouter = require('./routes/classify');
+const { specs, swaggerUi } = require('./swagger');
+const userRouter = require('./routes/user');
+const loggerMiddleware = require('./middlewares/logger.middleware');
+const { logger } = require('./utils/logger');
+const http = require('http');
 
 const allowedOrigins = [
     'http://localhost',  // For Frontend server
@@ -41,6 +38,18 @@ app.use(cors(corsOptions))
     .use(userRouter)
     .use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.listen(PORT, () => {
-    logger.info(`Server listening on port ${PORT}`);
-});
+// Export the HTTP server for testing
+const httpServerApp = http.createServer(app);
+
+async function startServer() {
+    await connectToDatabase();
+    httpServerApp.listen(PORT, () => {
+        logger.info(`Server listening on port ${PORT}`);
+    });
+}
+
+startServer();
+
+// Export the app for testing
+module.exports = app;
+module.exports.httpServerApp = httpServerApp;

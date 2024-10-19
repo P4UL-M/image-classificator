@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+const { createLogger, format, transports } = require('winston');
 
 const { printf, combine, timestamp, colorize } = format;
 
@@ -14,7 +14,7 @@ let alignColorsAndTime = combine(
     })
 );
 
-export const logger = createLogger({
+const logger = createLogger({
     level: 'info',
     format: combine(
         alignColorsAndTime
@@ -23,3 +23,5 @@ export const logger = createLogger({
         new transports.Console(),  // Logs to the console
     ]
 });
+
+module.exports = { logger };

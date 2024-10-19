@@ -1,11 +1,13 @@
 {
     "name": "ml-service-api",
     "version": "1.0.0",
-    "type": "module",
     "main": "src/index.js",
+    "type": "commonjs",
     "scripts": {
         "serve": "node --env-file=.env src/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "init": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+        "clear": "npx sequelize-cli db:seed:undo:all",
+        "test": "node --env-file=.env node_modules/jest/bin/jest.js --detectOpenHandles "
     },
     "author": "",
     "license": "ISC",
@@ -15,11 +17,14 @@
         "@grpc/proto-loader": "^0.7.13",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
         "express": "^4.21.1",
+        "jest": "^29.7.0",
         "jsonwebtoken": "^9.0.2",
         "pg": "^8.13.0",
         "pg-hstore": "^2.3.4",
         "sequelize": "^6.37.4",
+        "supertest": "^7.0.0",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
         "winston": "^3.15.0"
@@ -27,6 +32,9 @@
     "devDependencies": {
         "@babel/cli": "^7.25.7",
         "@babel/core": "^7.25.8",
-        "@babel/preset-env": "^7.25.8"
+        "@babel/plugin-transform-modules-commonjs": "^7.25.7",
+        "@babel/preset-env": "^7.25.8",
+        "@babel/register": "^7.25.7",
+        "sequelize-cli": "^6.6.2"
     }
 }

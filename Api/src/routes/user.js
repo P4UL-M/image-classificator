@@ -64,9 +64,9 @@
  *       500:
  *         description: Erreur lors de la récupération des informations de l'utilisateur
  */
-import express from 'express';
-import { getUser, listUsers } from '../services/user.service.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
+const express = require('express');
+const { getUser, listUsers } = require('../services/user.service.js');
+const authMiddleware = require('../middlewares/auth.middleware.js');
 
 const userRouter = express.Router();
 
@@ -81,4 +81,4 @@ userRouter.get('/whoami', authMiddleware, async (req, res) => {
     res.json(user);
 });
 
-export default userRouter;
+module.exports = userRouter;

@@ -41,11 +41,11 @@
  *       500:
  *         description: Internal server error
  */
-import express from 'express';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { validateFileTypeAndSize } from '../middlewares/file.middleware.js';
-import { classifyFileWithStream, createGrpcClient } from '../services/grpc.service.js';
-import { logger } from '../utils/logger.js';
+const express = require('express');
+const authMiddleware = require('../middlewares/auth.middleware.js');
+const { validateFileTypeAndSize } = require('../middlewares/file.middleware.js');
+const { classifyFileWithStream, createGrpcClient } = require('../services/grpc.service.js');
+const { logger } = require('../utils/logger.js');
 
 const classifyRouter = express.Router();
 const grpcClient = createGrpcClient();
@@ -68,4 +68,4 @@ classifyRouter.post('/classify', authMiddleware, validateFileTypeAndSize, (req, 
     }
 });
 
-export default classifyRouter;
+module.exports = classifyRouter;

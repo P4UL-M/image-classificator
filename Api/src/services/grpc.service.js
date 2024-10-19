@@ -1,13 +1,9 @@
-import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { logger } from '../utils/logger.js';
-
-// Get the path of the current file
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
+const fs = require('fs');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const { logger } = require('../utils/logger.js');
 
 const PROTO_PATH = path.join(__dirname, '../../protos/mlService.proto');
 const PORT = process.env.GRPC_PORT || 9090;
@@ -22,7 +18,7 @@ const HOST = process.env.GRPC_HOST || 'localhost';
  * 
  * @returns {import('@grpc/grpc-js').GrpcObject} The gRPC client instance.
  */
-export function createGrpcClient(host = HOST, port = PORT, protoPath = PROTO_PATH) {
+function createGrpcClient(host = HOST, port = PORT, protoPath = PROTO_PATH) {
     const packageDefinition = protoLoader.loadSync(protoPath, {
         keepCase: true,
         longs: String,
@@ -41,7 +37,7 @@ export function createGrpcClient(host = HOST, port = PORT, protoPath = PROTO_PAT
  * @param {import('@grpc/grpc-js').GrpcObject} client - The gRPC client instance.
  * @param {string} file - The path to the file to be classified.
  */
-export function classifyFileWithPath(client, file) {
+function classifyFileWithPath(client, file) {
     const call = client.ClassifyFile((error, response) => {
         if (error) {
             logger.error(error);
@@ -67,7 +63,7 @@ export function classifyFileWithPath(client, file) {
  * @param {import('express').Request} req - The path to the file to be classified.
  * @param {import('express').Response} res - The Express response object.
  */
-export function classifyFileWithStream(client, req, res) {
+function classifyFileWithStream(client, req, res) {
     const call = client.ClassifyFile((error, response) => {
         if (error) {
             logger.error(error);
@@ -97,3 +93,7 @@ export function classifyFileWithStream(client, req, res) {
         call.end();
     });
 }
+
+exports.createGrpcClient = createGrpcClient;
+exports.classifyFileWithPath = classifyFileWithPath;
+exports.classifyFileWithStream = classifyFileWithStream;

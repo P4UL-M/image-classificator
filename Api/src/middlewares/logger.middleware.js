@@ -1,7 +1,7 @@
-import { logger } from "../utils/logger.js";
+const { logger } = require('../utils/logger');
 
 // Middleware that logs the request method and URL
-export const loggerMiddleware = (req, res, next) => {
+const loggerMiddleware = (req, res, next) => {
     res.on('finish', () => {
         if (res.statusCode >= 400) {
             logger.warn(`${req.method} ${req.originalUrl} - ${res.statusCode}`);
@@ -12,3 +12,5 @@ export const loggerMiddleware = (req, res, next) => {
     });
     next();
 };
+
+module.exports = loggerMiddleware;

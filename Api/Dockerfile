@@ -16,10 +16,10 @@ RUN chmod +x /usr/wait-for-it.sh
 RUN npm install
 
 # Copy the rest of the application code
-COPY src ./src
-COPY public ./public
-COPY protos ./protos
-COPY .env ./
+COPY . .
+
+# Run the migrations
+RUN npm run init
 
 # Expose the port the app runs on
 EXPOSE 3000
