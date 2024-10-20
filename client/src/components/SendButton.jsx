@@ -18,13 +18,10 @@ const SendButton = ({ image }) => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('image', image);
-
         try {
-            const response = await authAxios.post('/classify', formData, {
+            const response = await authAxios.post('/classify', image, {
                 headers: {
-                    'Content-Type': 'image/jpg',
+                    'Content-Type': image.type,
                 },
             });
             if (response.status === 200) {

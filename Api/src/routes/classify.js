@@ -23,6 +23,16 @@
  *             type: string
  *             format: binary
  *           description: The image file to be classified
+ *         image/png:
+ *           schema:
+ *             type: string
+ *             format: binary
+ *           description: The image file to be classified
+ *         image/jpg:
+ *           schema:
+ *             type: string
+ *             format: binary
+ *           description: The image file to be classified
  *     responses:
  *       200:
  *         description: Image classified successfully
