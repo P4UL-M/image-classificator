@@ -75,12 +75,15 @@ services:
         depends_on:
             - restapi
         environment:
-            - VITE_BASE_URL=http://localhost:3000
+            VITE_BASE_URL: http://localhost:3000
 
 volumes:
     mongo-data:
+        name: mongo_data
     postgres_data:
+        name: postgres_data
 
 networks:
     image_classificator:
+        name: image_classificator
         driver: bridge
