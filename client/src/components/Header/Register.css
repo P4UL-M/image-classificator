@@ -46,7 +46,7 @@ input[type="text"] {
     font-size: 1rem;
     background-color: #3a3a3a;
     color: #ffffff;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.15s ease;
 }
 
 input[type="email"]:focus,
@@ -66,7 +66,7 @@ button[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     margin-top: 0.5rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.15s ease;
 }
 
 button[type="submit"]:hover {
@@ -87,22 +87,26 @@ button[type="submit"]:active {
 }
 
 .closeButton {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #3a3a3a;
-    color: white;
+    padding: 0.75rem 1.25rem;
+    background-color: #555555;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
     border: none;
-    border-radius: 0.25rem;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    transition: background-color 0.15s ease;
+    width: 100%;
+    text-align: center;
 }
 
 .closeButton:hover {
-    background-color: #555555;
+    background-color: #777777;
 }
 
 .closeButton:active {
-    background-color: #777777;
+    background-color: #999999;
 }
 
 /* SignUp button */
@@ -147,6 +151,84 @@ button[type="submit"]:active {
     background-color: #777777;
 }
 
+/* Profile */
+.username {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin-right: 1rem;
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.username:hover {
+    color: #a2a2a2;
+}
+
+.username:active {
+    color: #ffffff;
+}
+
+.userDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f1f1f1;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.modalDetails {
+    font-size: 1.15rem;
+    color: #cfcfcf;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+}
+
+.closeButton {
+    padding: 0.75rem 1.25rem;
+    background-color: #555555;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.15s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.logoutButton {
+    padding: 0.75rem 1rem;
+    background-color: #444444;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.15s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.logoutButton:hover {
+    background-color: #666666;
+}
+
+.logoutButton:active {
+    background-color: #333333;
+}
+
 /* Light theme adjustments */
 @media (prefers-color-scheme: light) {
     .modalContainer {
@@ -175,16 +257,31 @@ button[type="submit"]:active {
     }
 
     button[type="submit"] {
-        background-color: #213547;
+        background-color: #333333;
         color: #ffffff;
+        border: 1px solid #555555;
     }
 
     button[type="submit"]:hover {
-        background-color: #6b7c8a;
+        background-color: #4d4d4d;
     }
 
     button[type="submit"]:active {
-        background-color: #213547;
+        background-color: #2a2a2a;
+    }
+
+    .closeButton {
+        background-color: #f1f1f1;
+        color: #213547;
+        border: 1px solid #bcbec0;
+    }
+
+    .closeButton:hover {
+        background-color: #bdbdbd;
+    }
+
+    .closeButton:active {
+        background-color: #dcdcdc;
     }
 
     /* Sign Up button */
@@ -214,5 +311,44 @@ button[type="submit"]:active {
 
     .LogIn:active {
         background-color: #dcdcdc;
+    }
+
+    /* Username */
+    .username {
+        color: #213547;
+    }
+
+    .username:hover {
+        color: #6b7c8a;
+    }
+
+    .username:active {
+        color: #213547;
+    }
+
+    .userDetails {
+        color: #4e4e4e;
+    }
+
+    .modalHeading {
+        color: #333333;
+    }
+
+    .modalDetails {
+        color: #888888;
+    }
+
+    .logoutButton {
+        background-color: #888888;
+        border: 1px solid #a0a0a0;
+        color: #ffffff;
+    }
+
+    .logoutButton:hover {
+        background-color: #9e9e9e;
+    }
+
+    .logoutButton:active {
+        background-color: #6e6e6e;
     }
 }

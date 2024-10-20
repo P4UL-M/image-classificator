@@ -20,7 +20,7 @@ const corsOptions = {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error(origin + ' is not allowed by CORS'));
         }
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
