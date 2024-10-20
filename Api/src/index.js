@@ -11,7 +11,8 @@ const http = require('http');
 
 const allowedOrigins = [
     'http://localhost',  // For Frontend server
-    'http://localhost:3000'  // For API server
+    'http://localhost:3000',  // For API server
+    'http://localhost:5173',  // For REACT server
 ];
 
 const corsOptions = {

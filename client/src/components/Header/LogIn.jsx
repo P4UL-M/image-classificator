@@ -1,7 +1,8 @@
 import './Register.css';
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { AxiosContext } from '../../providers/AxiosContext';
+import { LOGIN } from '../../store';
 
 function LogIn() {
     const [showModal, setShowModal] = useState(false);
@@ -9,7 +10,7 @@ function LogIn() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const dispatch = useDispatch();
-    const axios = useContext(AxiosContext);
+    const { publicAxios } = useContext(AxiosContext);
 
     const openModal = () => {
         setShowModal(true);
@@ -23,30 +24,10 @@ function LogIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
-        // fetch('http://localhost:3000/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({ email, password }),
-        // })
-        //     .then((response) => {
-        //         if (response.ok) {
-        //             response.json().then(data => dispatch({ type: 'SET_USER', payload: data.token }));
-        //             closeModal();
-        //         } else {
-        //             setError('Error logging in');
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         setError('Error logging in');
-
-        //         console.error('Error logging in:', error);
-        //     });
         try {
-            const response = await axios.post('/login', { email, password });
+            const response = await publicAxios.post('/login', { email, password });
             if (response.status === 200) {
-                dispatch({ type: 'LOGIN', payload: response.data.token });
+                dispatch({ type: LOGIN, payload: response.data.token });
                 closeModal();
             } else {
                 setError('Error logging in');

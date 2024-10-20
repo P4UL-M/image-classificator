@@ -1,24 +1,25 @@
 import './Register.css';
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AxiosContext } from '../../providers/AxiosContext';
+import { SET_USER } from '../../store';
 
 function Profile() {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.token);
     const user = useSelector((state) => state.user);
-    const axios = useContext(AxiosContext);
+    const { authAxios } = useContext(AxiosContext);
 
     useEffect(() => {
-        axios.get('/whoami')
-            .then((response) => {
-                console.log('response', response);
-                dispatch({ type: 'SET_USER', payload: response.data });
-            })
-            .catch((error) => {
+        const fetchProfile = async () => {
+            try {
+                const response = await authAxios.get('/whoami');
+                dispatch({ type: SET_USER, payload: response.data });
+            } catch (error) {
                 console.error('Error fetching profile:', error);
-            });
-    }, [axios, dispatch]);
+            }
+        }
+        fetchProfile();
+    }, [authAxios, dispatch]);
 
     return (
         <div>

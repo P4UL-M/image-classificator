@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { loadState, saveState } from './sessionStorage';
 
-const initialState = {
+const persistState = loadState();
+
+const initialState = persistState ? persistState : {
     isConnected: false,
-    token: '',
+    token: null,
     user: {
         email: '',
         username: '',
@@ -14,13 +17,16 @@ const SET_USER = 'SET_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const LOGIN = 'LOGIN';
 
+export { SET_USER, LOGOUT_USER, LOGIN };
+
 export const setUser = (user) => ({
     type: SET_USER,
     payload: user
 });
 
 export const logoutUser = () => ({
-    type: LOGOUT_USER
+    type: LOGOUT_USER,
+    payload: null
 });
 
 export const login = (token) => ({
@@ -33,13 +39,13 @@ const userReducer = (state = initialState, action) => {
         case SET_USER:
             return {
                 ...state,
-                isConnected: true,
                 user: action.payload
             };
         case LOGOUT_USER:
             return {
                 ...state,
                 isConnected: false,
+                token: null,
                 user: {
                     email: '',
                     username: '',
@@ -59,6 +65,10 @@ const userReducer = (state = initialState, action) => {
 
 const store = configureStore({
     reducer: userReducer
+},);
+
+store.subscribe(() => {
+    saveState(store.getState());
 });
 
 export default store;
