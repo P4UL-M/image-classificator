@@ -43,8 +43,8 @@ function Profile() {
                             <h1 className='modalHeading'>Email</h1>
                             <h2 className='modalDetails'>{user?.email}</h2>
 
-                            <h1 className='modalHeading'>Balance</h1>
-                            <h2 className='modalDetails'>{user?.balance}</h2>
+                            {/* <h1 className='modalHeading'>Balance</h1>
+                            <h2 className='modalDetails'>{user?.balance}</h2> */}
 
                             <button className='logoutButton' onClick={() => dispatch({ type: 'LOGOUT_USER' })}>Logout</button>
                             <button className='closeButton' onClick={closeModal}>Close</button>

@@ -1,36 +1,49 @@
 import './SendButton.css';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AxiosContext } from '../providers/AxiosContext';
 import PropTypes from 'prop-types';
 
 const SendButton = ({ image }) => {
     const { authAxios } = useContext(AxiosContext);
-    const [uploadStatus, setUploadStatus] = useState('');
+    const [className, setClassName] = useState('');
+    const [confidence, setConfidence] = useState('');
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        if (!image) {
+            setClassName('');
+            setConfidence('');
+        }
+    }
+    , [image]);
 
     const handleSend = async () => {
         if (!image) {
-            setUploadStatus('No image selected');
+            setMessage('No image selected');
             return;
         }
 
         if (!image.type.startsWith('image/')) {
-            setUploadStatus('Invalid file type. Please upload an image file.');
+            setMessage('Invalid file type. Please upload an image file.');
             return;
         }
 
         try {
-            const response = await authAxios.post('/classify', image, {
-                headers: {
-                    'Content-Type': image.type,
-                },
-            });
-            if (response.status === 200) {
-                setUploadStatus('Image uploaded successfully');
-            } else {
-                setUploadStatus('Error uploading image');
+            if (image) {
+                const response = await authAxios.post('/classify', image, {
+                    headers: {
+                        'Content-Type': image.type,
+                    },
+                });
+                if (response.status === 200) {
+                    setClassName(response.data.class_name);
+                    setConfidence(response.data.confidence);
+                } else {
+                    setMessage('Error uploading image');
+                }
             }
         } catch (error) {
-            setUploadStatus('Error uploading image: ' + error.message);
+            setMessage('Error uploading image: ' + error.message);
         }
     };
 
@@ -42,10 +55,12 @@ const SendButton = ({ image }) => {
                     <button className="sendButton" onClick={handleSend}>
                         Send Image
                     </button>
-                    {uploadStatus && (
-                        <p className={`uploadStatus ${uploadStatus.includes('Error') ? 'error' : 'success'}`}>
-                            {uploadStatus}
-                        </p>
+                    <div className="message">{message}</div>
+                    {className && confidence && (
+                        <div className="result">
+                            <h2>This image is a {className}</h2>
+                            <h3>(Confidence: {confidence})</h3>
+                        </div>
                     )}
                 </div>
             )

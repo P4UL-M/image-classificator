@@ -28,18 +28,8 @@
     background-color: #999999;
 }
 
-.uploadStatus {
-    font-size: 1rem;
-    color: #f1f1f1; /* Default color for upload status */
-    margin: 0;
-}
-
-.uploadStatus.success {
-    color: #00ff00; /* Green for success messages */
-}
-
-.uploadStatus.error {
-    color: #ff0000; /* Red for error messages */
+.message {
+    color: #ff0000;
 }
 
 /* Light theme adjustments */
@@ -56,17 +46,5 @@
 
     .sendButton:active {
         background-color: #2a2a2a;
-    }
-
-    .uploadStatus {
-        color: #213547; /* Light theme color for upload status */
-    }
-
-    .uploadStatus.success {
-        color: #008000; /* Darker green for success in light theme */
-    }
-
-    .uploadStatus.error {
-        color: #ff0000; /* Red for error messages */
     }
 }

@@ -30,11 +30,19 @@ function LogIn() {
                 dispatch({ type: LOGIN, payload: response.data.token });
                 closeModal();
             } else {
-                setError('Error logging in');
+                if (response.status === 401) {
+                    setError('Invalid credentials');
+                } else {
+                    setError('Error logging in');
+                }
             }
         } catch (error) {
-            setError('Error logging in');
-            console.error('Error logging in:', error);
+            if (error.response?.status === 401) {
+                setError('Invalid credentials');
+            } else {
+                setError('Error logging in');
+                console.error('Error logging in:', error);
+            }
         }
     }
 

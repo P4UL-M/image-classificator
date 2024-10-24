@@ -30,8 +30,12 @@ function SignUp() {
                 await publicAxios.post('/register', { email, username, password });
                 closeModal();
             } catch (error) {
-                setError('Error signing up');
-                console.error('Error signing up:', error);
+                if (error.response?.status === 400) {
+                    setError('Missing required fields');
+                } else {
+                    setError('Error signing up');
+                    console.error('Error signing up:', error);
+                }
             }
         }
     };
