@@ -1,53 +1,107 @@
-#file {
-    display: none;
+.dropzone-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
 }
 
-.custom-file-upload {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #ffffff;
+.dropzone {
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #3a3a3a;
-    border: 1px solid #555555;
+    border: 2px dashed #555555;
     border-radius: 0.25rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative;
 }
 
-.custom-file-upload:hover {
+.dropzone.active {
     background-color: #555555;
+    border-color: #777777;
 }
 
-.custom-file-upload:active {
-    background-color: #777777;
+.dropzone p {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.preview-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 180px;
+    border-radius: 0.25rem;
+    object-fit: cover;
+}
+
+.remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.remove-button:hover {
+    background-color: #ff1a1a;
 }
 
 #selectedFile {
-    display: inline-block;
-    padding: 0.5rem 1rem;
+    margin-top: 1rem;
     font-size: 1rem;
     font-weight: 500;
     color: #ffffff;
 }
 
 @media (prefers-color-scheme: light) {
-    .custom-file-upload {
+    .dropzone {
         background-color: #ffffff;
-        color: #213547;
-        border: 1px solid #bcbec0;
+        border: 2px dashed #bcbec0;
     }
 
-    .custom-file-upload:hover {
+    .dropzone p {
+        color: #213547;
+    }
+
+    .dropzone.active {
         background-color: #e9ecef;
-        color: #213547;
-    }
-
-    .custom-file-upload:active {
-        background-color: #dcdcdc;
+        border-color: #dcdcdc;
     }
 
     #selectedFile {
         color: #213547;
+    }
+
+    .remove-button {
+        background-color: #ff6b6b;
+    }
+
+    .remove-button:hover {
+        background-color: #ff4d4d;
     }
 }

@@ -35,14 +35,22 @@ const SendButton = ({ image }) => {
     };
 
     return (
-        <div className="sendButtonContainer">
-            <button className="sendButton" onClick={handleSend}>Send Image</button>
-            {uploadStatus && (
-                <p className={`uploadStatus ${uploadStatus.includes('Error') ? 'error' : 'success'}`}>
-                    {uploadStatus}
-                </p>
-            )}
-        </div>
+        <>
+        {
+            image && (
+                <div className="sendButtonContainer">
+                    <button className="sendButton" onClick={handleSend}>
+                        Send Image
+                    </button>
+                    {uploadStatus && (
+                        <p className={`uploadStatus ${uploadStatus.includes('Error') ? 'error' : 'success'}`}>
+                            {uploadStatus}
+                        </p>
+                    )}
+                </div>
+            )
+        }
+        </>
     );
 };
 

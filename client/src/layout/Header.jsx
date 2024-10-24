@@ -11,7 +11,7 @@ function Header() {
     return (
         <div className="header">
             {/* <img src={image} className='image' alt="logo" /> */}
-            <div className='image'></div>
+            <div className='logo'></div>
             <h1>Image Classificator</h1>
             <div className='register'>
                 {
