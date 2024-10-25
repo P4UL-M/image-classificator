@@ -89,8 +89,11 @@ authRouter.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        await createUser(username, email, password);
-        res.status(201).send('User registered successfully.');
+        const newUser = await createUser(username, email, password);
+        const token = await authenticateUser(email, password);
+        
+        // Return the token in the response
+        res.status(201).send({ token });
     } catch (error) {
         logger.error('Error registering user:' + error.message || error);
         res.status(500).send('Error registering user.');

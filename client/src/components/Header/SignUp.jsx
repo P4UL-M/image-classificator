@@ -1,6 +1,7 @@
 import './Register.css';
 import { useState, useEffect, useContext } from 'react';
 import { AxiosContext } from '../../providers/AxiosContext';
+import { useDispatch } from 'react-redux';
 
 function SignUp() {
     const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,7 @@ function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const { publicAxios } = useContext(AxiosContext);
+    const dispatch = useDispatch();
 
     const openModal = () => {
         setShowModal(true);
@@ -27,7 +29,8 @@ function SignUp() {
         } else {
             setError('');
             try {
-                await publicAxios.post('/register', { email, username, password });
+                const response = await publicAxios.post('/register', { email, username, password });
+                dispatch({ type: 'LOGIN', payload: response.data.token });
                 closeModal();
             } catch (error) {
                 if (error.response?.status === 400) {
