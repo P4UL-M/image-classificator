@@ -89,7 +89,7 @@ authRouter.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        const newUser = await createUser(username, email, password);
+        await createUser(username, email, password);
         const token = await authenticateUser(email, password);
         
         // Return the token in the response

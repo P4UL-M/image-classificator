@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -15,6 +15,9 @@ RUN chmod +x wait-for-it.sh
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install tensorflow
+RUN pip install pillow
 
 # Make port 9090 available to the world outside this container
 EXPOSE 9090
