@@ -1,14 +1,14 @@
 import './HomePage.css';
-import frog from '../assets/image_0_frog.png';
-import truck1 from '../assets/image_1_truck.png';
-import truck2 from '../assets/image_2_truck.png';
-import deer from '../assets/image_3_deer.png';
-import automobile1 from '../assets/image_4_automobile.png';
-import automobile2 from '../assets/image_5_automobile.png';
-import bird from '../assets/image_6_bird.png';
-import horse from '../assets/image_7_horse.png';
-import ship from '../assets/image_8_ship.png';
-import cat from '../assets/image_9_cat.png';
+import frog from '../assets/frog.png';
+import truck from '../assets/truck.png';
+import deer from '../assets/deer.png';
+import automobile from '../assets/automobile.png';
+import bird from '../assets/bird.png';
+import horse from '../assets/horse.png';
+import ship from '../assets/ship.png';
+import airplane from '../assets/airplane.png';
+import cat from '../assets/cat.png';
+import dog from '../assets/dog.png';
 
 const HomePage = () => {
     return (
@@ -26,16 +26,16 @@ const HomePage = () => {
                     <p>frog</p>
                 </div>
                 <div className="image">
-                    <a href={truck1} download>
-                        <img src={truck1} alt="truck" />
+                    <a href={truck} download>
+                        <img src={truck} alt="truck" />
                     </a>
                     <p>truck</p>
                 </div>
-                <div className="image">
-                    <a href={truck2} download>
-                        <img src={truck2} alt="truck" />
+                <div className='image'>
+                    <a href={dog} download>
+                        <img src={dog} alt="dog" />
                     </a>
-                    <p>truck</p>
+                    <p>dog</p>
                 </div>
                 <div className="image">
                     <a href={deer} download>
@@ -44,16 +44,16 @@ const HomePage = () => {
                     <p>deer</p>
                 </div>
                 <div className="image">
-                    <a href={automobile1} download>
-                        <img src={automobile1} alt="automobile" />
+                    <a href={automobile} download>
+                        <img src={automobile} alt="automobile" />
                     </a>
                     <p>automobile</p>
                 </div>
                 <div className="image">
-                    <a href={automobile2} download>
-                        <img src={automobile2} alt="automobile" />
+                    <a href={airplane} download>
+                        <img src={airplane} alt="airplane" />
                     </a>
-                    <p>automobile</p>
+                    <p>airplane</p>
                 </div>
                 <div className="image">
                     <a href={bird} download>

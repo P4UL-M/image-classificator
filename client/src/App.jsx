@@ -19,7 +19,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='here'>
       <Header />
       <div className="container">
         { token ? (
@@ -31,7 +31,7 @@ function App() {
           <HomePage />
         )}
       </div>
-    </>
+    </div>
   )
 }
 

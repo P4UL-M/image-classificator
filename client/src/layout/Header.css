@@ -3,13 +3,25 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 0rem;
+    padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 2rem;
     padding-right: 2rem;
     background-color: #1e1e1e;
     border-bottom: 1px solid #3a3a3a;
     margin: 0px;
+    height: 10vh;
+}
+
+.title-container {
+    display: table;
+    flex-direction: row;
+    text-align: center;
+}
+
+.title {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .logo {

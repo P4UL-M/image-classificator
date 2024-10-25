@@ -8,14 +8,15 @@ const SendButton = ({ image }) => {
     const [className, setClassName] = useState('');
     const [confidence, setConfidence] = useState('');
     const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!image) {
             setClassName('');
             setConfidence('');
+            setMessage('');
         }
-    }
-    , [image]);
+    }, [image]);
 
     const handleSend = async () => {
         if (!image) {
@@ -28,43 +29,55 @@ const SendButton = ({ image }) => {
             return;
         }
 
+        setIsLoading(true);
+
         try {
-            if (image) {
-                const response = await authAxios.post('/classify', image, {
-                    headers: {
-                        'Content-Type': image.type,
-                    },
-                });
-                if (response.status === 200) {
-                    setClassName(response.data.class_name);
-                    setConfidence(response.data.confidence);
-                } else {
-                    setMessage('Error uploading image');
-                }
+            const response = await authAxios.post('/classify', image, {
+                headers: {
+                    'Content-Type': image.type,
+                },
+            });
+
+            if (response.status === 200) {
+                setClassName(response.data.class_name);
+                setConfidence(response.data.confidence);
+                setMessage('');
+            } else {
+                setMessage('Error uploading image');
             }
         } catch (error) {
-            setMessage('Error uploading image: ' + error.message);
+            if (error.status === 401) {
+                setMessage('Error uploading image: ' + error.message);
+            } else {
+                setMessage('Error uploading image');
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <>
-        {
-            image && (
+            {image && (
                 <div className="sendButtonContainer">
-                    <button className="sendButton" onClick={handleSend}>
-                        Send Image
-                    </button>
+                    {!className && !confidence && (
+                        <button className="sendButton" onClick={handleSend} disabled={isLoading}>
+                            {isLoading ? (
+                                <div className="spinner"></div>
+                            ) : (
+                                "Send Image"
+                            )}
+                        </button>
+                    )}
                     <div className="message">{message}</div>
                     {className && confidence && (
                         <div className="result">
                             <h2>This image is a {className}</h2>
-                            <h3>(Confidence: {confidence})</h3>
+                            <h3>Confidence: {(confidence * 100).toFixed(2)}%</h3>
                         </div>
                     )}
                 </div>
-            )
-        }
+            )}
         </>
     );
 };

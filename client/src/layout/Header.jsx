@@ -12,7 +12,9 @@ function Header() {
         <div className="header">
             {/* <img src={image} className='image' alt="logo" /> */}
             <div className='logo'></div>
-            <h1>Image Classificator</h1>
+            <div className='title-container'>
+                <h1 className='title'>Image Classificator</h1>
+            </div>
             <div className='register'>
                 {
                     isConnected
