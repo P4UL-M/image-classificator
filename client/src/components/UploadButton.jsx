@@ -6,12 +6,18 @@ import { useDropzone } from 'react-dropzone';
 const UploadButton = ({ onImageUpload, onImageRemove }) => {
     const [fileName, setFileName] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const onDrop = (acceptedFiles) => {
         const file = acceptedFiles[0];
+        console.log('Accepted files:', acceptedFiles);
+        
+        setErrorMessage(null);
+
         if (file) {
-            const validMimeTypes = ['image/jpeg', 'image/png'];
+            const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
             if (!validMimeTypes.includes(file.type)) {
+                setErrorMessage(`Invalid file type: ${file.type}. Please upload a JPEG, JPG or PNG image.`);
                 console.warn(`Skipped "${file.name}" because it is not a valid MIME type: ${file.type}`);
                 return;
             }
@@ -19,6 +25,7 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
             const extension = file.name.split('.').pop().toLowerCase();
             const validExtensions = ['jpg', 'jpeg', 'png'];
             if (!validExtensions.includes(extension)) {
+                setErrorMessage(`Invalid file extension: .${extension}. Please upload a JPEG, JPG or PNG image.`);
                 console.warn(`Skipped "${file.name}" because an invalid file extension was provided: .${extension}`);
                 return;
             }
@@ -26,6 +33,8 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
             setFileName(file.name);
             setImagePreview(URL.createObjectURL(file));
             onImageUpload(file);
+        } else {
+            setErrorMessage('Please upload a JPEG, JPG or PNG image.');
         }
     };
 
@@ -33,6 +42,7 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
         event.stopPropagation();
         setFileName(null);
         setImagePreview(null);
+        setErrorMessage(null);
         onImageRemove();
     };
 
@@ -67,6 +77,7 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
                     <p>{isDragActive ? 'Drop the image here...' : 'Drag and drop an image, or click to select one'}</p>
                 )}
             </div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
             {fileName && (
                 <p id="selectedFile">Selected file: {fileName}</p>
             )}
