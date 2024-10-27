@@ -23,52 +23,72 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
             }
         };
 
+        const handlePaste = (event) => {
+            const items = event.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.kind === 'file' && item.type.startsWith('image/')) {
+                    const file = item.getAsFile();
+                    if (file) {
+                        handleFile(file);
+                    }
+                    break;
+                }
+            }
+        };
+
         document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('paste', handlePaste);
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('paste', handlePaste);
         };
     }, []);
 
-    const onDrop = (acceptedFiles) => {
-        const file = acceptedFiles[0];
+    const handleFile = (file) => {
         setErrorMessage(null);
 
+        const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validMimeTypes.includes(file.type)) {
+            setErrorMessage(`Invalid file type: ${file.type}. Please upload a JPEG, JPG or PNG image.`);
+            return;
+        }
+
+        const extension = file.name.split('.').pop().toLowerCase();
+        if (!['jpg', 'jpeg', 'png'].includes(extension)) {
+            setErrorMessage(`Invalid file extension: .${extension}. Please upload a JPEG, JPG or PNG image.`);
+            return;
+        }
+
+        setFileName(file.name);
+        setFileType(file.type);
+        const imageUrl = URL.createObjectURL(file);
+        setCroppingImage(imageUrl);
+
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => {
+            const { width, height } = img;
+            
+            const minHeight = 100;
+            const minWidth = 200;
+
+            let newHeight = height > width ? 400 : (400 * height) / width;
+            let newWidth = height > width ? (400 * width) / height : 400;
+
+            newHeight = Math.max(newHeight, minHeight);
+            newWidth = Math.max(newWidth, minWidth);
+
+            setCropperDimensions({ height: newHeight, width: newWidth });
+            setIsModalOpen(true);
+        };
+    };
+
+    const onDrop = (acceptedFiles) => {
+        const file = acceptedFiles[0];
         if (file) {
-            const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-            if (!validMimeTypes.includes(file.type)) {
-                setErrorMessage(`Invalid file type: ${file.type}. Please upload a JPEG, JPG or PNG image.`);
-                return;
-            }
-
-            const extension = file.name.split('.').pop().toLowerCase();
-            if (!['jpg', 'jpeg', 'png'].includes(extension)) {
-                setErrorMessage(`Invalid file extension: .${extension}. Please upload a JPEG, JPG or PNG image.`);
-                return;
-            }
-
-            setFileName(file.name);
-            setFileType(file.type);
-            const imageUrl = URL.createObjectURL(file);
-            setCroppingImage(imageUrl);
-
-            const img = new Image();
-            img.src = imageUrl;
-            img.onload = () => {
-                const { width, height } = img;
-                
-                const minHeight = 100;
-                const minWidth = 200;
-
-                let newHeight = height > width ? 400 : (400 * height) / width;
-                let newWidth = height > width ? (400 * width) / height : 400;
-
-                newHeight = Math.max(newHeight, minHeight);
-                newWidth = Math.max(newWidth, minWidth);
-
-                setCropperDimensions({ height: newHeight, width: newWidth });
-                setIsModalOpen(true);
-            };
+            handleFile(file);
         } else {
             setErrorMessage('Please upload a JPEG, JPG or PNG image.');
         }
