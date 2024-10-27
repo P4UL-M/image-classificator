@@ -12,6 +12,7 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [croppingImage, setCroppingImage] = useState(null);
     const [fileType, setFileType] = useState(null);
+    const [cropperDimensions, setCropperDimensions] = useState({ height: 400, width: 400 });
 
     const cropperRef = useRef(null);
 
@@ -21,14 +22,14 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
                 setIsModalOpen(false);
             }
         };
-    
+
         document.addEventListener('keydown', handleKeyDown);
-    
+
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
-    
+
     const onDrop = (acceptedFiles) => {
         const file = acceptedFiles[0];
         setErrorMessage(null);
@@ -50,7 +51,24 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
             setFileType(file.type);
             const imageUrl = URL.createObjectURL(file);
             setCroppingImage(imageUrl);
-            setIsModalOpen(true);
+
+            const img = new Image();
+            img.src = imageUrl;
+            img.onload = () => {
+                const { width, height } = img;
+                
+                const minHeight = 100;
+                const minWidth = 200;
+
+                let newHeight = height > width ? 400 : (400 * height) / width;
+                let newWidth = height > width ? (400 * width) / height : 400;
+
+                newHeight = Math.max(newHeight, minHeight);
+                newWidth = Math.max(newWidth, minWidth);
+
+                setCropperDimensions({ height: newHeight, width: newWidth });
+                setIsModalOpen(true);
+            };
         } else {
             setErrorMessage('Please upload a JPEG, JPG or PNG image.');
         }
@@ -62,6 +80,7 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
         setImagePreview(null);
         setErrorMessage(null);
         onImageRemove();
+        setCropperDimensions({ height: 400, width: 400 })
     };
 
     const handleCrop = () => {
@@ -108,7 +127,14 @@ const UploadButton = ({ onImageUpload, onImageRemove }) => {
                         <div className="cropper-container">
                             <Cropper
                                 src={croppingImage}
-                                style={{ height: 400, width: 400 }}
+                                style={{
+                                    height: cropperDimensions.height,
+                                    width: cropperDimensions.width,
+                                    backgroundColor: '#2a2a2a',
+                                    display: 'block',
+                                    maxHeight: '100%',
+                                    maxWidth: '100%',
+                                }}
                                 aspectRatio={1}
                                 guides={false}
                                 ref={cropperRef}
