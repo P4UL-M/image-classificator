@@ -5,10 +5,12 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class FileRequest(_message.Message):
-    __slots__ = ("file_content",)
+    __slots__ = ("file_content", "model_name")
     FILE_CONTENT_FIELD_NUMBER: _ClassVar[int]
+    MODEL_NAME_FIELD_NUMBER: _ClassVar[int]
     file_content: bytes
-    def __init__(self, file_content: _Optional[bytes] = ...) -> None: ...
+    model_name: str
+    def __init__(self, file_content: _Optional[bytes] = ..., model_name: _Optional[str] = ...) -> None: ...
 
 class ClassificationResponse(_message.Message):
     __slots__ = ("class_name", "confidence")

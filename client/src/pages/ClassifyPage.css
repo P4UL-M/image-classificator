@@ -1,0 +1,13 @@
+/* Styling for the ClassifyPage layout */
+.classify-page {
+    position: relative;
+    width: 100%;
+    flex: 1;
+}
+
+/* Positioning the model selector in the top-left corner */
+.model-selector-wrapper {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}

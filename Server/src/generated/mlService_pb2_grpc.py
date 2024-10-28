@@ -11,8 +11,7 @@ _version_not_supported = False
 
 try:
     from grpc._utilities import first_version_is_lower
-    _version_not_supported = first_version_is_lower(
-        GRPC_VERSION, GRPC_GENERATED_VERSION)
+    _version_not_supported = first_version_is_lower(GRPC_VERSION, GRPC_GENERATED_VERSION)
 except ImportError:
     _version_not_supported = True
 
@@ -37,10 +36,10 @@ class ImageClassificatorStub(object):
             channel: A grpc.Channel.
         """
         self.ClassifyFile = channel.stream_unary(
-            '/imageclassificator.ImageClassificator/ClassifyFile',
-            request_serializer=mlService__pb2.FileRequest.SerializeToString,
-            response_deserializer=mlService__pb2.ClassificationResponse.FromString,
-            _registered_method=True)
+                '/imageclassificator.ImageClassificator/ClassifyFile',
+                request_serializer=mlService__pb2.FileRequest.SerializeToString,
+                response_deserializer=mlService__pb2.ClassificationResponse.FromString,
+                _registered_method=True)
 
 
 class ImageClassificatorServicer(object):
@@ -57,36 +56,34 @@ class ImageClassificatorServicer(object):
 
 def add_ImageClassificatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'ClassifyFile': grpc.stream_unary_rpc_method_handler(
-            servicer.ClassifyFile,
-            request_deserializer=mlService__pb2.FileRequest.FromString,
-            response_serializer=mlService__pb2.ClassificationResponse.SerializeToString,
-        ),
+            'ClassifyFile': grpc.stream_unary_rpc_method_handler(
+                    servicer.ClassifyFile,
+                    request_deserializer=mlService__pb2.FileRequest.FromString,
+                    response_serializer=mlService__pb2.ClassificationResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'imageclassificator.ImageClassificator', rpc_method_handlers)
+            'imageclassificator.ImageClassificator', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers(
-        'imageclassificator.ImageClassificator', rpc_method_handlers)
+    server.add_registered_method_handlers('imageclassificator.ImageClassificator', rpc_method_handlers)
+
 
  # This class is part of an EXPERIMENTAL API.
-
-
 class ImageClassificator(object):
     """The service definition.
     """
 
     @staticmethod
     def ClassifyFile(request_iterator,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.stream_unary(
             request_iterator,
             target,

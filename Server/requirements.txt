@@ -1,4 +1,3 @@
-dnspython==2.7.0
 grpcio==1.67.0
 grpcio-tools==1.67.0
 logging==0.4.9.6
@@ -7,3 +6,5 @@ protobuf==5.28.2
 pymongo==4.10.1
 setuptools==75.2.0
 types-protobuf==5.28.0.20240924
+tensorflow==2.18.0
+pillow==11.0.0

@@ -1,0 +1,43 @@
+/* File: styles/ModelSelector.css */
+
+.model-selector {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.model-selector label {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.model-selector select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.model-selector select option {
+    padding: 0.5rem;
+    color: #333;
+}
+
+.model-selector select {
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+}
+
+@media (prefers-color-scheme: light) {
+    .model-selector {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+}

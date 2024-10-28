@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AxiosContext } from '../providers/AxiosContext';
 import PropTypes from 'prop-types';
 
-const SendButton = ({ image }) => {
+const SendButton = ({ image, model }) => {
     const { authAxios } = useContext(AxiosContext);
     const [className, setClassName] = useState('');
     const [confidence, setConfidence] = useState('');
@@ -30,7 +30,9 @@ const SendButton = ({ image }) => {
         setIsLoading(true);
 
         try {
-            const response = await authAxios.post('/classify', image, {
+            const response = await authAxios.post('/classify?' + new URLSearchParams({
+                model,
+            }), image, {
                 headers: {
                     'Content-Type': image.type,
                 },
@@ -41,13 +43,17 @@ const SendButton = ({ image }) => {
                 setConfidence(response.data.confidence);
                 setMessage('');
             } else {
-                setMessage('Error uploading image');
+                console.log(response);
+                throw new Error('Unknown error while trying to classify image');
             }
         } catch (error) {
             if (error.status === 401) {
-                setMessage('Error uploading image: ' + error.message);
+                setMessage('Unauthorized. Please log in to classify image');
+            } else if (error.status <= 500) {
+                setMessage('Server error while trying to classify image');
             } else {
-                setMessage('Error uploading image');
+                console.log(error);
+                setMessage('Unknown error while trying to classify image');
             }
         } finally {
             setIsLoading(false);
@@ -82,6 +88,7 @@ const SendButton = ({ image }) => {
 
 SendButton.propTypes = {
     image: PropTypes.object,
+    model: PropTypes.string,
 };
 
 export default SendButton;

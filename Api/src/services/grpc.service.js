@@ -47,6 +47,11 @@ function classifyFileWithPath(client, file) {
     });
 
     const fileContent = fs.createReadStream(file);
+
+    fileContent.on('open', () => {
+        call.write({ model_name: 'mobilenet_v2' });
+    });
+
     fileContent.on('data', (chunk) => {
         call.write({ file_content: chunk });
     });
@@ -69,10 +74,13 @@ function classifyFileWithStream(client, req, res) {
             logger.error(error);
             res.status(500).send('Error processing request.');
         } else {
-            logger.info("Response received from server");
+            logger.info("Response received from ML server");
             res.status(200).send(response);
         }
     });
+
+    call.write({ model_name: req.query.model_name || 'default' });
+
 
     req.on('data', (chunk) => {
         try {

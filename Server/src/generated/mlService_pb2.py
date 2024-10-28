@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fmlService.proto\x12\x12imageclassificator\"#\n\x0b\x46ileRequest\x12\x14\n\x0c\x66ile_content\x18\x01 \x01(\x0c\"@\n\x16\x43lassificationResponse\x12\x12\n\nclass_name\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x02\x32s\n\x12ImageClassificator\x12]\n\x0c\x43lassifyFile\x12\x1f.imageclassificator.FileRequest\x1a*.imageclassificator.ClassificationResponse(\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fmlService.proto\x12\x12imageclassificator\"C\n\x0b\x46ileRequest\x12\x16\n\x0c\x66ile_content\x18\x01 \x01(\x0cH\x00\x12\x14\n\nmodel_name\x18\x02 \x01(\tH\x00\x42\x06\n\x04\x66ile\"@\n\x16\x43lassificationResponse\x12\x12\n\nclass_name\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x02\x32s\n\x12ImageClassificator\x12]\n\x0c\x43lassifyFile\x12\x1f.imageclassificator.FileRequest\x1a*.imageclassificator.ClassificationResponse(\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'mlService_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_FILEREQUEST']._serialized_start=39
-  _globals['_FILEREQUEST']._serialized_end=74
-  _globals['_CLASSIFICATIONRESPONSE']._serialized_start=76
-  _globals['_CLASSIFICATIONRESPONSE']._serialized_end=140
-  _globals['_IMAGECLASSIFICATOR']._serialized_start=142
-  _globals['_IMAGECLASSIFICATOR']._serialized_end=257
+  _globals['_FILEREQUEST']._serialized_end=106
+  _globals['_CLASSIFICATIONRESPONSE']._serialized_start=108
+  _globals['_CLASSIFICATIONRESPONSE']._serialized_end=172
+  _globals['_IMAGECLASSIFICATOR']._serialized_start=174
+  _globals['_IMAGECLASSIFICATOR']._serialized_end=289
 # @@protoc_insertion_point(module_scope)

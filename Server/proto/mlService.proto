@@ -4,7 +4,10 @@ package imageclassificator;
 
 // The request message containing the file to be classified.
 message FileRequest {
-    bytes file_content = 1;
+    oneof file {
+        bytes file_content = 1;
+        string model_name = 2;
+    }
 }
 
 // The response message containing the classification result.
