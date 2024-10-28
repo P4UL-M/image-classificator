@@ -27,14 +27,14 @@ function validateFileTypeAndSize(req, res, next) {
         totalSize += chunk.length;
 
         // Reject if file size exceeds the limit
-        if (totalSize > MAX_FILE_SIZE) {
+        if (totalSize > MAX_FILE_SIZE && !res.headersSent) {
             return res.status(413).send('File size exceeds limit.');
         }
     });
 
     req.on('end', () => {
         // Ensure total size is under the limit
-        if (totalSize > MAX_FILE_SIZE) {
+        if (totalSize > MAX_FILE_SIZE && !res.headersSent) {
             return res.status(413).send('File size exceeds limit.');
         }
     });
