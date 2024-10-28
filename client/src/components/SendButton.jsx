@@ -11,11 +11,9 @@ const SendButton = ({ image }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (!image) {
-            setClassName('');
-            setConfidence('');
-            setMessage('');
-        }
+        setClassName('');
+        setConfidence('');
+        setMessage('');
     }, [image]);
 
     const handleSend = async () => {

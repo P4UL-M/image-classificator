@@ -1,5 +1,4 @@
 .dropzone-container {
-    margin-top: 5vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,18 +7,16 @@
 }
 
 .dropzone {
-    width: 100%;
-    max-width: 400px;
-    height: 200px;
+    width: 350px;
+    height: 350px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #3a3a3a;
     border: 2px dashed #555555;
-    border-radius: 0.25rem;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    position: relative;
 }
 
 .dropzone.active {
@@ -28,7 +25,7 @@
 }
 
 .dropzone p {
-    color: #ffffff;
+    color: #f1f1f1;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -38,24 +35,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .image-preview {
-    max-width: 100%;
-    max-height: 180px;
-    border-radius: 0.25rem;
+    width: 350px;
+    height: 350px;
+    border-radius: 4px;
     object-fit: cover;
 }
 
 .remove-button {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: -10px;
+    right: -10px;
     background-color: #ff4d4d;
     color: white;
     border: none;
-    width: 25px;
-    height: 25px;
+    width: 24px;
+    height: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,46 +63,123 @@
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
 }
 
 .remove-button:hover {
     background-color: #ff1a1a;
 }
 
-#selectedFile {
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #ffffff;
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
+.modalContainer {
+    background-color: #2a2a2a;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    width: 100%;
+    color: #f1f1f1;
+    position: relative;
+    z-index: 1001;
+}
+
+.cropper-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.crop-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.crop-button,
+.cancel-button {
+    padding: 0.75rem 1.25rem;
+    background-color: #555555;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.crop-button:hover,
+.cancel-button:hover {
+    background-color: #777777;
+}
+
+.crop-button:active,
+.cancel-button:active {
+    background-color: #999999;
+}
+
+/* Light Theme Adjustments */
 @media (prefers-color-scheme: light) {
     .dropzone {
         background-color: #ffffff;
-        border: 2px dashed #bcbec0;
-    }
-
-    .dropzone p {
-        color: #213547;
+        border: 2px dashed #cccccc;
     }
 
     .dropzone.active {
-        background-color: #e9ecef;
-        border-color: #dcdcdc;
+        background-color: #f1f1f1;
+        border-color: #dddddd;
     }
 
-    #selectedFile {
-        color: #213547;
+    .dropzone p {
+        color: #333333;
     }
 
     .remove-button {
-        background-color: #ff6b6b;
+        background-color: #ff4d4d;
+        color: white;
     }
 
     .remove-button:hover {
-        background-color: #ff4d4d;
+        background-color: #ff1a1a;
+    }
+
+    .modalBackground {
+        background-color: rgba(0, 0, 0, 0.65);
+    }
+
+    .modalContainer {
+        background-color: #ffffff;
+        color: #213547;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .crop-button,
+    .cancel-button {
+        background-color: #333333;
+        color: #ffffff;
+        border: 1px solid #555555;
+    }
+
+    .crop-button:hover,
+    .cancel-button:hover {
+        background-color: #4d4d4d;
+    }
+
+    .crop-button:active,
+    .cancel-button:active {
+        background-color: #2a2a2a;
     }
 }
