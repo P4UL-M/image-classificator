@@ -14,7 +14,7 @@ const SendButton = ({ image, model }) => {
         setClassName('');
         setConfidence('');
         setMessage('');
-    }, [image]);
+    }, [image, model]);
 
     const handleSend = async () => {
         if (!image) {

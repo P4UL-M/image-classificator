@@ -50,6 +50,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         if not model_config:
             logging.error(f"Model {model_name} not found")
             context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'Model not found')
+            return
 
         # Preprocess the image and make a prediction
         predicted_class, confidence = self.classify_image(model_config, file_url)

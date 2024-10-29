@@ -79,7 +79,8 @@ function classifyFileWithStream(client, req, res) {
         }
     });
 
-    call.write({ model_name: req.query.model_name || 'default' });
+    if (req.query.model)
+        call.write({ model_name: req.query.model });
 
 
     req.on('data', (chunk) => {
