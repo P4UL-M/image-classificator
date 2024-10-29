@@ -1,6 +1,7 @@
 import asyncio
 from concurrent import futures
 import logging
+import os
 import grpc
 
 import generated.mlService_pb2_grpc as ml_grpc
@@ -11,7 +12,7 @@ logging.basicConfig(level=logging.INFO,
 
 
 async def serve():
-    port = 9090
+    port = int(os.getenv('PORT', 9090))
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     ml_grpc.add_ImageClassificatorServicer_to_server(mlServer(), server)
     server.add_insecure_port(f'[::]:{port}')

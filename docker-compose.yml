@@ -21,9 +21,10 @@ services:
         depends_on:
             - mongodb
         environment:
-            - MONGO_HOST=mongodb://mongodb:27017
-            - MONGO_PORT=27017
-            - MONGO_DB=image_classificator
+            MONGO_HOST: mongodb://mongodb:27017
+            MONGO_PORT: 27017
+            MONGO_DB: image_classificator
+            PORT: 9091
     postgresdb:
         image: postgres:latest
         container_name: postgresdb
@@ -49,7 +50,7 @@ services:
         environment:
             JWT_SECRET: secret
             GRPC_HOST: grpc-server
-            GRPC_PORT: 9090
+            GRPC_PORT: 9091
             PROD_DB_USERNAME: postgres
             PROD_DB_PASSWORD: postgres
             PROD_DB_NAME: image_classificator
