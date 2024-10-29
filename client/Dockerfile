@@ -10,6 +10,10 @@ COPY . .
 # Install dependencies
 RUN npm install
 
+# Put the environment variables in the build
+ARG VITE_BASE_URL
+ENV VITE_BASE_URL $VITE_BASE_URL
+
 # Build the application
 RUN npm run build
 
