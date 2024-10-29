@@ -1,13 +1,43 @@
 /* Styling for the ClassifyPage layout */
 .classify-page {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr; /* Left drawer, content, and an empty column to balance */
     width: 100%;
-    flex: 1;
 }
 
-/* Positioning the model selector in the top-left corner */
 .model-selector-wrapper {
-    position: absolute;
+    display: flex;
     top: 1rem;
     left: 1rem;
+}
+
+/* Left drawer styling */
+.left-drawer {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Centering content in the whole page */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Responsive design for small screens */
+@media (max-width: 768px) {
+    .classify-page {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+        grid-template-rows: auto 1fr;
+    }
+
+    .left-drawer,
+    .placeholder {
+        width: 100%; /* Take full width on smaller screens */
+    }
 }

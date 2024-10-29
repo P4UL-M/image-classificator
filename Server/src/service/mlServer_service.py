@@ -1,8 +1,8 @@
 import logging
 import pathlib
-from typing import AsyncIterator
+from typing import AsyncIterator, override
 import generated.mlService_pb2_grpc as ml_grpc
-from generated.mlService_pb2 import FileRequest, ClassificationResponse
+from generated.mlService_pb2 import FileRequest, ClassificationResponse, ModelListResponse, Model, Empty
 import grpc
 import uuid
 import os
@@ -24,6 +24,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
             self.models[model['name']] = keras_models.load_model(model_path)
         logging.info("Models loaded")
 
+    @override
     async def ClassifyFile(self, request_iterator: AsyncIterator[FileRequest], context: grpc.ServicerContext):
         context.set_compression(grpc.Compression.Gzip)
         logging.info("ClassifyFile method started")
@@ -65,6 +66,16 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
 
         # Return the result
         return ClassificationResponse(class_name=model_config['classes'][predicted_class], confidence=confidence)
+
+    @override
+    async def ListModels(self, _: Empty, context: grpc.ServicerContext):
+        logging.info("ListModels method started")
+        if ML_MODELS is None:
+            context.abort(grpc.StatusCode.NOT_FOUND, 'No models found')
+            return
+        models = [Model(name=model['name'], description=model['description'], version=model['version'], accuracy=model['accuracy'], price=model['price']) for model in ML_MODELS]
+        return ModelListResponse(models=models)
+
 
     def classify_image(self, model_config:dict, image_path:pathlib.Path):
         """Loads, preprocesses the image, and predicts the class using the loaded model."""

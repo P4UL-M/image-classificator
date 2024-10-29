@@ -22,16 +22,12 @@
 
 .model-selector select option {
     padding: 0.5rem;
-    color: #333;
 }
 
 .model-selector select {
     padding: 0.4rem 0.6rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9;
-    color: #333;
     outline: none;
 }
 
@@ -39,5 +35,15 @@
     .model-selector {
         background-color: #f8f9fa;
         border-bottom: 1px solid #e9ecef;
+    }
+
+    .model-selector label {
+        color: #333;
+    }
+
+    .model-selector select {
+        background-color: #fff;
+        color: #333;
+        border: 1px solid #ccc;
     }
 }

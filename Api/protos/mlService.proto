@@ -16,8 +16,23 @@ message ClassificationResponse {
     float confidence = 2;
 }
 
+message ModelListResponse {
+    repeated Model models = 1;
+}
+
+message Empty {}
+
+message Model { 
+    string name = 1;
+    string description = 2;
+    string version = 3;
+    int32 price = 4;
+    float accuracy = 5;
+}
+
 // The service definition.
 service ImageClassificator {
     // Streams a file to the ML server and gets the classification result.
     rpc ClassifyFile(stream FileRequest) returns (ClassificationResponse);
+    rpc ListModels(Empty) returns (ModelListResponse);
 }

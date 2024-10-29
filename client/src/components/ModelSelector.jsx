@@ -3,8 +3,8 @@
 import PropTypes from "prop-types";
 import './ModelSelector.css';
 
-const ModelSelector = ({ selectedModel, onSelectModel }) => {
-    const models = ['vgg-3', 'vgg-5'];
+const ModelSelector = ({ selectedModel, onSelectModel, models }) => {
+    const modelsList = models || ['vgg-3', 'vgg-5'];
 
     return (
         <div className="model-selector">
@@ -13,7 +13,7 @@ const ModelSelector = ({ selectedModel, onSelectModel }) => {
                 value={selectedModel}
                 onChange={(e) => onSelectModel(e.target.value)}
             >
-                {models.map((model, index) => (
+                {modelsList.map((model, index) => (
                     <option key={index} value={model}>
                         {model}
                     </option>
@@ -26,6 +26,7 @@ const ModelSelector = ({ selectedModel, onSelectModel }) => {
 ModelSelector.propTypes = {
     selectedModel: PropTypes.string,
     onSelectModel: PropTypes.func,
+    models: PropTypes.array,
 };
 
 export default ModelSelector;

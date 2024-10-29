@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth');
 const classifyRouter = require('./routes/classify');
 const { specs, swaggerUi } = require('./swagger');
 const userRouter = require('./routes/user');
+const modelRouter = require('./routes/models');
 const loggerMiddleware = require('./middlewares/logger.middleware');
 const { logger } = require('./utils/logger');
 const http = require('http');
@@ -38,6 +39,7 @@ app.use(cors(corsOptions))
     .use(authRouter)
     .use(classifyRouter)
     .use(userRouter)
+    .use(modelRouter)
     .use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Export the HTTP server for testing

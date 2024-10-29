@@ -103,6 +103,31 @@ function classifyFileWithStream(client, req, res) {
     });
 }
 
+function listModels(client, req, res) {
+    return client.ListModels({}, (error, response) => {
+        if (error) {
+            logger.error(error);
+            res.status(500).send('Error processing request.');
+        } else {
+            logger.info("Response received from ML server");
+            res.status(200).send(response);
+        }
+    });
+
+}
+
+const grpcClient = createGrpcClient();
+
+grpcClient.waitForReady(Date.now() + 3000, (error) => {
+    if (error) {
+        logger.error('Error connecting to gRPC server: ' + error.message || error);
+    } else {
+        logger.info('Connected to gRPC server');
+    }
+});
+
 exports.createGrpcClient = createGrpcClient;
 exports.classifyFileWithPath = classifyFileWithPath;
 exports.classifyFileWithStream = classifyFileWithStream;
+exports.listModels = listModels;
+exports.grpcClient = grpcClient;

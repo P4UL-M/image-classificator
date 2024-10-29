@@ -12,7 +12,9 @@ ML_MODELS:list[dict[str,str | dict | int]] = [
         "classes": [
             "airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"
         ],
-        "price": 1
+        "price": 1,
+        "accuracy": 0.86,
+        "version": '1'
     },
     {
         "name": "vgg-5",
@@ -34,7 +36,9 @@ ML_MODELS:list[dict[str,str | dict | int]] = [
             'squirrel', 'streetcar', 'sunflower', 'sweet_pepper', 'table', 'tank', 'telephone', 'television', 'tiger', 'tractor',
             'train', 'trout', 'tulip', 'turtle', 'wardrobe', 'whale', 'willow_tree', 'wolf', 'woman', 'worm'
         ],
-        "price": 2
+        "price": 2,
+        "accuracy": 0.67,
+        "version": '2'
     },
 ]
 

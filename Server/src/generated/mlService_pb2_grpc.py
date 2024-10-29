@@ -40,6 +40,11 @@ class ImageClassificatorStub(object):
                 request_serializer=mlService__pb2.FileRequest.SerializeToString,
                 response_deserializer=mlService__pb2.ClassificationResponse.FromString,
                 _registered_method=True)
+        self.ListModels = channel.unary_unary(
+                '/imageclassificator.ImageClassificator/ListModels',
+                request_serializer=mlService__pb2.Empty.SerializeToString,
+                response_deserializer=mlService__pb2.ModelListResponse.FromString,
+                _registered_method=True)
 
 
 class ImageClassificatorServicer(object):
@@ -53,6 +58,12 @@ class ImageClassificatorServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListModels(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ImageClassificatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -60,6 +71,11 @@ def add_ImageClassificatorServicer_to_server(servicer, server):
                     servicer.ClassifyFile,
                     request_deserializer=mlService__pb2.FileRequest.FromString,
                     response_serializer=mlService__pb2.ClassificationResponse.SerializeToString,
+            ),
+            'ListModels': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListModels,
+                    request_deserializer=mlService__pb2.Empty.FromString,
+                    response_serializer=mlService__pb2.ModelListResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -90,6 +106,33 @@ class ImageClassificator(object):
             '/imageclassificator.ImageClassificator/ClassifyFile',
             mlService__pb2.FileRequest.SerializeToString,
             mlService__pb2.ClassificationResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListModels(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/imageclassificator.ImageClassificator/ListModels',
+            mlService__pb2.Empty.SerializeToString,
+            mlService__pb2.ModelListResponse.FromString,
             options,
             channel_credentials,
             insecure,

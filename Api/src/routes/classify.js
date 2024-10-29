@@ -54,19 +54,10 @@
 const express = require('express');
 const authMiddleware = require('../middlewares/auth.middleware.js');
 const { validateFileTypeAndSize } = require('../middlewares/file.middleware.js');
-const { classifyFileWithStream, createGrpcClient } = require('../services/grpc.service.js');
+const { classifyFileWithStream, grpcClient } = require('../services/grpc.service.js');
 const { logger } = require('../utils/logger.js');
 
 const classifyRouter = express.Router();
-const grpcClient = createGrpcClient();
-
-grpcClient.waitForReady(Date.now() + 3000, (error) => {
-    if (error) {
-        logger.error('Error connecting to gRPC server: ' + error.message || error);
-    } else {
-        logger.info('Connected to gRPC server');
-    }
-});
 
 classifyRouter.post('/classify', authMiddleware, validateFileTypeAndSize, (req, res) => {
     try {
