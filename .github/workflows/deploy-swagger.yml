@@ -43,6 +43,13 @@ jobs:
               <title>API Documentation</title>
               <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
           </head>
+          <style>
+              /* Remove padding from the body */
+              body {
+                  margin: 0;
+                  padding: 0;
+              }
+          </style>
           <body>
               <div id="swagger-ui"></div>
               <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
