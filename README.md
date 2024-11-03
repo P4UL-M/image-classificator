@@ -72,8 +72,8 @@ The idea behind the application is to create a web-application to classify image
 ```bash
 docker-compose --profile tools up
 ```
-3. Access the application at `http://localhost:3000`.
-4. Access the API documentation at `http://localhost:3000/api-docs`. 
+1. Access the application at `http://localhost/image-classificator/`.
+2. Access the API documentation at `http://localhost:3000/api-docs`. 
 
 To run the application without running the migrations again, use the following command:
 ```bash
@@ -135,7 +135,7 @@ docker-compose up
     cd Client
     npm run dev
     ```
-13. Access the application at `http://localhost:3000`.
+13. Access the application at `http://localhost/image-classificator/`.
 14. Access the API documentation at `http://localhost:3000/api-docs`.
 
 ### Testing
