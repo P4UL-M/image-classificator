@@ -14,7 +14,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/classify" element={token ? <ClassifyPage /> : <Navigate to="/" />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={token ? <Navigate to="/classify" /> : <HomePage />} />
         </Routes>
       </div>
     </Router>
