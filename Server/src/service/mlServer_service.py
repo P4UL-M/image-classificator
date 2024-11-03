@@ -21,7 +21,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         for model in ML_MODELS:
             model_path = ML_MODELS_DIR / model['file']
             logging.info(f"Loading model {model_path}")
-            self.models[model['name']] = keras_models.load_model(model_path)
+            self.models[model['name']] = keras_models.load_model(model_path, compile=False)
         logging.info("Models loaded")
 
     @override

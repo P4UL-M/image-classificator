@@ -1,14 +1,27 @@
 import asyncio
 from concurrent import futures
 import logging
+import colorlog
 import os
 import grpc
 
 import generated.mlService_pb2_grpc as ml_grpc
 from service.mlServer_service import mlServer
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+handler = colorlog.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
+    '%(asctime)s %(log_color)s%(levelname)s%(reset)s: %(message)s',
+    log_colors={
+        'DEBUG': 'cyan',
+        'INFO': 'green',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+        'CRITICAL': 'bold_red',
+    },
+    datefmt='%Y-%m-%d %H:%M:%S'
+))
+
+logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 
 async def serve():

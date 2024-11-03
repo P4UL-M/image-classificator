@@ -1,10 +1,11 @@
-grpcio==1.67.0
-grpcio-tools==1.67.0
+grpcio==1.67.1
+grpcio-tools==1.67.1
 logging==0.4.9.6
 pathlib==1.0.1
-protobuf==5.28.2
+protobuf==5.28.3
 pymongo==4.10.1
-setuptools==75.2.0
-types-protobuf==5.28.0.20240924
+setuptools==75.3.0
+types-protobuf==5.28.3.20241030
 tensorflow==2.18.0
 pillow==11.0.0
+colorlog==6.9.0

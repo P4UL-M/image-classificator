@@ -2,9 +2,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const fs = require('fs');
 const path = require('path');
-const { fileURLToPath } = require('url');
 const { logger } = require('../utils/logger.js');
-const { updateBalance } = require('./user.service.js');
 
 const PROTO_PATH = path.join(__dirname, '../../protos/mlService.proto');
 const PORT = process.env.GRPC_PORT || 9090;
@@ -77,7 +75,6 @@ function classifyFileWithStream(client, req, res) {
         } else {
             logger.info("Response received from ML server");
             res.status(200).send(response);
-            updateBalance(req.user.id, -1);
         }
     });
 
@@ -104,7 +101,13 @@ function classifyFileWithStream(client, req, res) {
     });
 }
 
-function listModels(client, req, res) {
+/**
+ * Lists the available models from the gRPC server.
+ * @param {import('@grpc/grpc-js').GrpcObject} client - The gRPC client instance.
+ * @param {import('express').Request} _ - The Express request object.
+ * @param {import('express').Response} res - The Express response object.
+ */
+function listModels(client, _, res) {
     return client.ListModels({}, (error, response) => {
         if (error) {
             logger.error(error);
@@ -119,9 +122,11 @@ function listModels(client, req, res) {
 
 const grpcClient = createGrpcClient();
 
-grpcClient.waitForReady(Date.now() + 3000, (error) => {
+// Wait for the gRPC client to be ready before accepting requests
+grpcClient.waitForReady(Date.now() + 5000, (error) => {
     if (error) {
         logger.error('Error connecting to gRPC server: ' + error.message || error);
+        logger.warn('Some features may not work as expected until the gRPC server is available.');
     } else {
         logger.info('Connected to gRPC server');
     }

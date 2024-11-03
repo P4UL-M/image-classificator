@@ -47,6 +47,7 @@ async function startServer() {
     await connectToDatabase();
     httpServerApp.listen(PORT, () => {
         logger.info(`Server listening on port ${PORT}`);
+        logger.info(`Swagger UI available at http://localhost:${PORT}/api-docs`);
     });
 }
 
