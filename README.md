@@ -73,7 +73,7 @@ The idea behind the application is to create a web-application to classify image
 docker-compose --profile tools up
 ```
 3. Access the application at `http://localhost:3000`.
-4. Access the API documentation at `http://localhost:3001/api-docs`. 
+4. Access the API documentation at `http://localhost:3000/api-docs`. 
 
 To run the application without running the migrations again, use the following command:
 ```bash
@@ -136,7 +136,7 @@ docker-compose up
     npm run dev
     ```
 13. Access the application at `http://localhost:3000`.
-14. Access the API documentation at `http://localhost:3001/api-docs`.
+14. Access the API documentation at `http://localhost:3000/api-docs`.
 
 ### Testing
 To run the tests for the API, use the following command:
