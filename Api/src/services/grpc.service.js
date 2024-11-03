@@ -69,9 +69,10 @@ function classifyFileWithPath(client, file) {
  */
 function classifyFileWithStream(client, req, res) {
     const call = client.ClassifyFile((error, response) => {
+        if (res.headersSent) return;
         if (error) {
             logger.error(error);
-            res.status(500).send('Error processing request.');
+            res.status(500).send('Error processing request:' + error.message || error);
         } else {
             logger.info("Response received from ML server");
             res.status(200).send(response);
@@ -86,7 +87,6 @@ function classifyFileWithStream(client, req, res) {
             call.write({ file_content: chunk });
         } catch (err) {
             logger.error('Error sending chunk:', err.message || err);
-            req.destroy();
             call.end();
         }
     });
@@ -132,7 +132,6 @@ grpcClient.waitForReady(Date.now() + 5000, (error) => {
     }
 });
 
-exports.createGrpcClient = createGrpcClient;
 exports.classifyFileWithPath = classifyFileWithPath;
 exports.classifyFileWithStream = classifyFileWithStream;
 exports.listModels = listModels;

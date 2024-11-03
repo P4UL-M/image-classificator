@@ -44,13 +44,13 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
                 file_data.extend(chunk.file_content)
                 f.write(chunk.file_content)
                 if len(file_data) > MAX_MESSAGE_SIZE:
-                    context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'File is too big')
+                    await context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'File is too big')
 
         # Get the model to use
         model_config = next((m for m in ML_MODELS if m['name'] == model_name), None)
         if not model_config:
             logging.error(f"Model {model_name} not found")
-            context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'Model not found')
+            await context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'Model not found')
             return
 
         # Preprocess the image and make a prediction

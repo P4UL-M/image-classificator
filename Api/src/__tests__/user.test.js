@@ -20,7 +20,7 @@ describe('GET /whoami', () => {
         return await request(app)
             .post('/login')
             .send({
-                email: 'user1@deway.fr',
+                email: 'user1@email.com',
                 password: 'password1'
             })
             .expect(200)

@@ -3,8 +3,8 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB size limit
 /**
  * Middleware to validate file type and size.
  * 
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * @param {import('express').Request} req - The request object.
+ * @param {import('express').Response} res - The response object.
  * @param {Function} next - The next middleware function.
  * 
  * @returns {void}
@@ -22,23 +22,20 @@ function validateFileTypeAndSize(req, res, next) {
 
     // We expect 'file' to be a part of the form-data
     let totalSize = 0;
+    let error = false;
 
     req.on('data', (chunk) => {
         totalSize += chunk.length;
 
         // Reject if file size exceeds the limit
-        if (totalSize > MAX_FILE_SIZE && !res.headersSent) {
-            return res.status(413).send('File size exceeds limit.');
+        if (totalSize > MAX_FILE_SIZE && !res.headersSent && !req.destroyed && !error) {
+            error = true;
+            req.pause();
+            res.status(413).send('Payload Too Large');
         }
     });
 
-    req.on('end', () => {
-        // Ensure total size is under the limit
-        if (totalSize > MAX_FILE_SIZE && !res.headersSent) {
-            return res.status(413).send('File size exceeds limit.');
-        }
-    });
-
+    // Start processing the next middleware immediately
     next();
 }
 

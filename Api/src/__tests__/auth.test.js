@@ -7,13 +7,15 @@ beforeAll(() => {
     logger.transports.forEach((t) => (t.silent = true));
 });
 
+const email = `test${Math.floor(Math.random() * 100000)}@email.com`;
+
 describe('POST /register', () => {
     it('should return 201 OK', (done) => {
         request(app)
             .post('/register')
             .send({
                 username: 'test',
-                email: `test${Math.floor(Math.random() * 100000)}@email.com`,
+                email: email,
                 password: 'password'
             })
             .expect(201, done)
@@ -25,7 +27,7 @@ describe('POST /login', () => {
         return await request(app)
             .post('/login')
             .send({
-                email: 'test@email.com',
+                email: email,
                 password: 'password'
             })
             .expect(200)
