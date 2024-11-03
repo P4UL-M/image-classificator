@@ -145,6 +145,9 @@ cd Api
 npm run test
 ```
 
+### Documentation
+The API documentation is available at `http://localhost:3000/api-docs`. A live instance of the documentation is available on [GitHub Pages](https://p4ul-m.github.io/image-classificator/).
+
 ## Contribution
 Les contributions sont les bienvenues ! Veuillez suivre les étapes ci-dessous pour contribuer :
 1. Forkez le dépôt.

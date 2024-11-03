@@ -8,7 +8,7 @@ const modelRouter = express.Router();
  * @swagger
  * /models:
  *   get:
- *     summary: Récupère la liste des modèles.
+ *     summary: Récupère la liste des modèles 🚀.
  *     description: Appelle le service gRPC pour récupérer la liste des modèles disponibles.
  *     responses:
  *       200:

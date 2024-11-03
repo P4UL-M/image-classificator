@@ -9,7 +9,7 @@
  * @swagger
  * /classify:
  *   post:
- *     summary: Classify an image file
+ *     summary: Classify an image file 🚀.
  *     description: This route accepts an image file in JPEG format, validates the file, and streams it to a gRPC server for classification. The user must be authenticated.
  *     tags:
  *      - Classify
