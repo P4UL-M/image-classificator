@@ -75,7 +75,7 @@ services:
         build:
             context: ./Client
             args:
-                VITE_BASE_URL: http://localhost:3000
+                VITE_API_URL: http://localhost:3000
         container_name: frontend
         ports:
             - "80:80"
