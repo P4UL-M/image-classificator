@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import UploadButton from '../components/UploadButton';
-import SendButton from '../components/SendButton';
+import UploadButton from '../components/buttons/UploadButton';
+import SendButton from '../components/buttons/SendButton';
 import ModelSelector from '../components/ModelSelector';
 import './ClassifyPage.css';
 import { AxiosContext } from '../providers/AxiosContext';

@@ -1,6 +1,7 @@
 import './Register.css';
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AxiosContext } from '../../providers/AxiosContext';
 import { LOGIN } from '../../store';
 
@@ -11,6 +12,7 @@ function LogIn() {
     const [error, setError] = useState('');
     const dispatch = useDispatch();
     const { publicAxios } = useContext(AxiosContext);
+    const navigate = useNavigate();
 
     const openModal = () => {
         setShowModal(true);
@@ -29,6 +31,7 @@ function LogIn() {
             if (response.status === 200) {
                 dispatch({ type: LOGIN, payload: response.data.token });
                 closeModal();
+                navigate('/classify');
             } else {
                 if (response.status === 401) {
                     setError('Invalid credentials');

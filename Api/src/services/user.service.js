@@ -66,4 +66,13 @@ async function listUsers() {
     return sequelize.models.user.findAll({ attributes: { exclude: ['password'] } });
 }
 
-module.exports = { createUser, getUser, authenticateUser, getUserFromToken, listUsers };
+async function updateBalance(id, amount) {
+    const user = await sequelize.models.user.findByPk(id);
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    return user.update({ balance: user.balance + amount });
+}
+
+module.exports = { createUser, getUser, authenticateUser, getUserFromToken, listUsers, updateBalance };

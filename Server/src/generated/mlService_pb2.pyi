@@ -32,15 +32,13 @@ class Empty(_message.Message):
     def __init__(self) -> None: ...
 
 class Model(_message.Message):
-    __slots__ = ("name", "description", "version", "price", "accuracy")
+    __slots__ = ("name", "description", "version", "accuracy")
     NAME_FIELD_NUMBER: _ClassVar[int]
     DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
     VERSION_FIELD_NUMBER: _ClassVar[int]
-    PRICE_FIELD_NUMBER: _ClassVar[int]
     ACCURACY_FIELD_NUMBER: _ClassVar[int]
     name: str
     description: str
     version: str
-    price: int
     accuracy: float
-    def __init__(self, name: _Optional[str] = ..., description: _Optional[str] = ..., version: _Optional[str] = ..., price: _Optional[int] = ..., accuracy: _Optional[float] = ...) -> None: ...
+    def __init__(self, name: _Optional[str] = ..., description: _Optional[str] = ..., version: _Optional[str] = ..., accuracy: _Optional[float] = ...) -> None: ...

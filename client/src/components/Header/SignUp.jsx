@@ -2,6 +2,7 @@ import './Register.css';
 import { useState, useEffect, useContext } from 'react';
 import { AxiosContext } from '../../providers/AxiosContext';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
     const [showModal, setShowModal] = useState(false);
@@ -12,6 +13,7 @@ function SignUp() {
     const [error, setError] = useState('');
     const { publicAxios } = useContext(AxiosContext);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const openModal = () => {
         setShowModal(true);
@@ -32,6 +34,7 @@ function SignUp() {
                 const response = await publicAxios.post('/register', { email, username, password });
                 dispatch({ type: 'LOGIN', payload: response.data.token });
                 closeModal();
+                navigate('/classify');
             } catch (error) {
                 if (error.response?.status === 400) {
                     setError('Missing required fields');

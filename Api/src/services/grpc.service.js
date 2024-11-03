@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { fileURLToPath } = require('url');
 const { logger } = require('../utils/logger.js');
+const { updateBalance } = require('./user.service.js');
 
 const PROTO_PATH = path.join(__dirname, '../../protos/mlService.proto');
 const PORT = process.env.GRPC_PORT || 9090;
@@ -76,12 +77,12 @@ function classifyFileWithStream(client, req, res) {
         } else {
             logger.info("Response received from ML server");
             res.status(200).send(response);
+            updateBalance(req.user.id, -1);
         }
     });
 
     if (req.query.model)
         call.write({ model_name: req.query.model });
-
 
     req.on('data', (chunk) => {
         try {

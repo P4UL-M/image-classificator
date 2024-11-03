@@ -73,7 +73,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         if ML_MODELS is None:
             context.abort(grpc.StatusCode.NOT_FOUND, 'No models found')
             return
-        models = [Model(name=model['name'], description=model['description'], version=model['version'], accuracy=model['accuracy'], price=model['price']) for model in ML_MODELS]
+        models = [Model(name=model['name'], description=model['description'], version=model['version'], accuracy=model['accuracy']) for model in ML_MODELS]
         return ModelListResponse(models=models)
 
 

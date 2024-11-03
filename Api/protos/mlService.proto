@@ -26,8 +26,7 @@ message Model {
     string name = 1;
     string description = 2;
     string version = 3;
-    int32 price = 4;
-    float accuracy = 5;
+    float accuracy = 4;
 }
 
 // The service definition.

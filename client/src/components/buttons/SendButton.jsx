@@ -1,6 +1,6 @@
 import './SendButton.css';
 import { useState, useContext, useEffect } from 'react';
-import { AxiosContext } from '../providers/AxiosContext';
+import { AxiosContext } from '../../providers/AxiosContext';
 import PropTypes from 'prop-types';
 
 const SendButton = ({ image, model }) => {

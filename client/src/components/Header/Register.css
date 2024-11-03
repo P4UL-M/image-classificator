@@ -241,7 +241,7 @@ button[type="submit"]:active {
     label {
         color: #213547;
     }
-    
+
     input[type="email"],
     input[type="password"],
     input[type="text"] {

@@ -3,21 +3,21 @@ import Header from './layout/Header'
 import { useSelector } from 'react-redux'
 import HomePage from './pages/HomePage'
 import ClassifyPage from './pages/ClassifyPage'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 
 function App() {
   const token = useSelector((state) => state.token)
 
   return (
-    <div>
+    <Router basename="/image-classificator">
       <Header />
       <div className="container">
-        { token ? (
-          <ClassifyPage />
-        ) : (
-          <HomePage />
-        )}
+        <Routes>
+          <Route path="/classify" element={token ? <ClassifyPage /> : <Navigate to="/" />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   )
 }
 
