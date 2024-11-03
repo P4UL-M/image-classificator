@@ -38,13 +38,18 @@
  *             schema:
  *               type: object
  *               properties:
- *                 classification:
+ *                 class_name:
  *                   type: string
  *                   description: The classification result
- *       400:
- *         description: Invalid file type or size
+ *                 confidence:
+ *                   type: number
+ *                   description: The confidence level of the classification
  *       401:
  *         description: Unauthorized, bearer token missing or invalid
+ *       413:
+ *         description: File too large
+ *       415:
+ *         description: Unsupported media type
  *       500:
  *         description: Internal server error
  */

@@ -13,6 +13,25 @@ const modelRouter = express.Router();
  *     responses:
  *       200:
  *         description: Liste des modèles récupérée avec succès.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: Le nom du modèle
+ *                   description:
+ *                     type: string
+ *                     description: La description du modèle
+ *                   version:
+ *                     type: string
+ *                     description: La version du modèle
+ *                   accuracy:
+ *                     type: number
+ *                     description: La précision du modèle
  *       500:
  *         description: Erreur lors du traitement de la requête.
  */
