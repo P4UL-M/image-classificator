@@ -2,8 +2,6 @@ services:
     mongodb:
         image: mongo:latest
         container_name: mongodb
-        ports:
-            - "27017:27017"
         volumes:
             - mongo-data:/data/db
             - mongo-data:/data/configdb
@@ -24,7 +22,7 @@ services:
             MONGO_HOST: mongodb://mongodb:27017
             MONGO_PORT: 27017
             MONGO_DB: image_classificator
-            PORT: 9091
+            PORT: 9090
     postgresdb:
         image: postgres:latest
         container_name: postgresdb
@@ -34,8 +32,6 @@ services:
             POSTGRES_DB: image_classificator
         volumes:
             - postgres_data:/var/lib/postgresql/data
-        ports:
-            - "5432:5432"
         networks:
             - image_classificator
     rest-api:
@@ -50,7 +46,7 @@ services:
         environment:
             JWT_SECRET: secret
             GRPC_HOST: grpc-server
-            GRPC_PORT: 9091
+            GRPC_PORT: 9090
             PROD_DB_USERNAME: postgres
             PROD_DB_PASSWORD: postgres
             PROD_DB_NAME: image_classificator
