@@ -21,7 +21,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build output to the nginx html directory
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html/image-classificator
 
 # Expose port 80
 EXPOSE 80
