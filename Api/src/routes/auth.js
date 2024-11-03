@@ -77,6 +77,7 @@
 const express = require('express');
 const { authenticateUser, createUser } = require('../services/user.service.js');
 const { logger } = require('../utils/logger.js');
+const { sequelize } = require('../../models/index.js');
 
 const authRouter = express.Router();
 
@@ -91,12 +92,18 @@ authRouter.post('/register', async (req, res) => {
     try {
         await createUser(username, email, password);
         const token = await authenticateUser(email, password);
-        
+
         // Return the token in the response
         res.status(201).send({ token });
     } catch (error) {
-        logger.error('Error registering user:' + error.message || error);
-        res.status(500).send('Error registering user.');
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).send('User already exists.');
+        } else if (error.name === 'SequelizeValidationError') {
+            return res.status(400).send('Invalid user data.');
+        } else {
+            logger.error('Error registering user:' + error);
+            res.status(500).send('Error registering user.');
+        }
     }
 });
 

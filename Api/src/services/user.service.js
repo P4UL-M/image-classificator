@@ -1,6 +1,7 @@
 const { sequelize } = require('./db.service.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const User = require('../../models').user;
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
@@ -14,7 +15,7 @@ const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
  */
 async function createUser(username, email, password) {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-    return sequelize.models.user.create({ username, email, password: hashedPassword, balance: 0 });
+    return sequelize.models.user.create({ username, email, password: hashedPassword });
 }
 
 /**

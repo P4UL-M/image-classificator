@@ -8,14 +8,12 @@ module.exports = {
       username: 'user1',
       email: 'user1@email.com',
       password: bcrypt.hashSync('password1', process.env.SALT_ROUNDS || 10),
-      balance: 100,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       username: 'user2',
       email: 'user2@email.com',
       password: bcrypt.hashSync('password2', process.env.SALT_ROUNDS || 10),
-      balance: 200,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
