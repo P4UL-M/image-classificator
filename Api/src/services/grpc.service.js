@@ -122,16 +122,6 @@ function listModels(client, _, res) {
 
 const grpcClient = createGrpcClient();
 
-// Wait for the gRPC client to be ready before accepting requests
-grpcClient.waitForReady(Date.now() + 5000, (error) => {
-    if (error) {
-        logger.error('Error connecting to gRPC server: ' + error.message || error);
-        logger.warn('Some features may not work as expected until the gRPC server is available.');
-    } else {
-        logger.info('Connected to gRPC server');
-    }
-});
-
 exports.classifyFileWithPath = classifyFileWithPath;
 exports.classifyFileWithStream = classifyFileWithStream;
 exports.listModels = listModels;
