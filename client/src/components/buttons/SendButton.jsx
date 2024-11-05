@@ -27,6 +27,11 @@ const SendButton = ({ image, model }) => {
             return;
         }
 
+        if (!model) {
+            setMessage('No model selected');
+            return;
+        }
+
         setIsLoading(true);
 
         try {

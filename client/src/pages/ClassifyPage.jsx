@@ -9,7 +9,7 @@ import ModelDescription from '../components/ModelDescription';
 const ClassifyPage = () => {
     const { publicAxios } = useContext(AxiosContext);
     const [image, setImage] = useState(null);
-    const [selectedModel, setSelectedModel] = useState('vgg-3'); // Default model
+    const [selectedModel, setSelectedModel] = useState(null); // Default model
     const [models, setModels] = useState([]);
 
     const handleImageUpload = (uploadedImage) => {
@@ -38,6 +38,7 @@ const ClassifyPage = () => {
         fetchModels().then((models) => {
             console.log(models);
             setModels(models);
+            setSelectedModel(models[0].name);
         });
     }, [fetchModels]);
 
