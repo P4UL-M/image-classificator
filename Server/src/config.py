@@ -1,6 +1,6 @@
 import pathlib
 
-ML_MODELS:list[dict[str,str | dict | int]] = [
+ML_MODELS: list[dict[str, str | dict | int]] = [
     {
         "name": "vgg-3",
         "description": "VGG model with 3 layers trained on CIFAR-10 dataset",
@@ -37,6 +37,20 @@ ML_MODELS:list[dict[str,str | dict | int]] = [
         ],
         "accuracy": 0.67,
         "version": '2'
+    },
+    {
+        "name": "resnet-50",
+        "description": "ResNet model with 50 layers trained on CIFAR-10 dataset",
+        "file": "resnet.keras",
+        "preprocessing": {
+            "resize": (32, 32),
+            "normalize": 1 / 255.0
+        },
+        "classes": [
+            "airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"
+        ],
+        "accuracy": 0.895,
+        "version": '1'
     },
 ]
 
