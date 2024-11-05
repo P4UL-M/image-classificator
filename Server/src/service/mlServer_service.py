@@ -16,6 +16,7 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
     db = DBService()
 
     def __init__(self):
+        global ML_MODELS
         # Load all models from the ML_MODELS_DIR
         self.models: dict[str, keras_models.Model] = {}
         for model in ML_MODELS:
@@ -26,7 +27,10 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
                     model_path, compile=False)
             except Exception as e:
                 logging.error(f"Error loading model {model_path}: {e}")
-                ML_MODELS.remove(model)
+                continue
+        # Remove models that failed to load from the config
+        ML_MODELS = [model for model in ML_MODELS if model['name']
+                     in self.models.keys()]
         logging.info("Models loaded")
 
     @override
