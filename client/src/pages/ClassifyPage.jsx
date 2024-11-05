@@ -38,7 +38,7 @@ const ClassifyPage = () => {
         fetchModels().then((models) => {
             console.log(models);
             setModels(models);
-            setSelectedModel(models[0].name);
+            setSelectedModel(models?.[0]?.name || null);
         });
     }, [fetchModels]);
 
