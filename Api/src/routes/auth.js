@@ -78,6 +78,10 @@ const express = require('express');
 const { authenticateUser, createUser } = require('../services/user.service.js');
 const { logger } = require('../utils/logger.js');
 const { sequelize } = require('../../models/index.js');
+const authMiddleware = require('../middlewares/auth.middleware.js');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
 const authRouter = express.Router();
 
@@ -90,7 +94,7 @@ authRouter.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        await createUser(username, email, password);
+        await createUser({ username, email, password });
         const token = await authenticateUser(email, password);
 
         // Return the token in the response
@@ -117,6 +121,32 @@ authRouter.post('/login', async (req, res) => {
         logger.error('Error authenticating user:' + error.message || error);
         res.status(401).send('Invalid credentials.');
     }
+});
+
+authRouter.get('/token', authMiddleware, async (req, res) => {
+    // Check the scope the user want to access
+    const { scopes } = req.query;
+    let user = req.user;
+    user = await sequelize.models.user.findByPk(user.id);
+
+    if (!scopes) {
+        return res.status(400).send('Missing required fields.');
+    }
+
+    // Check if the user has the required scope
+    for (const scope of scopes.split(',')) {
+        // Check balance related scopes
+        if (scope.startsWith('classify:')) {
+            // Check the balance of the user
+            if (user.balance < 1) {
+                return res.status(403).send('Insufficient balance.');
+            }
+        }
+    }
+
+    // Return the token with the scopes
+    const token = await jwt.sign({ id: user.id, scopes }, JWT_SECRET, { expiresIn: '1m' });
+    res.status(200).send({ token });
 });
 
 module.exports = authRouter;
