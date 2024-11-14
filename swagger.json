@@ -1,0 +1,335 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Image Classification API",
+    "version": "1.0.1",
+    "description": "A simple API to classify images, manage users, and manage models. Some endpoint are locked behind authentification, make sure to add the token in the Authorization header using the 🔒 button on the right corner of the request.<br /><br />DISCLAIMER:<br /> - Routes which require the gRPC server to be running will return an error if the server is not running. All routes concerned are marked with a 🚀.<br /> - All routes will return 405 if tested on the live instance on Github-Page, please run locally to test the routes."
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Enregistre un nouvel utilisateur",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Le nom d'utilisateur"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "L'adresse email de l'utilisateur"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Le mot de passe de l'utilisateur"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Utilisateur enregistré avec succès"
+          },
+          "400": {
+            "description": "Champs requis manquants"
+          },
+          "500": {
+            "description": "Erreur lors de l'enregistrement de l'utilisateur"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Authentifie un utilisateur",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "L'adresse email de l'utilisateur"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Le mot de passe de l'utilisateur"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentification réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Jeton d'authentification JWT"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Identifiants invalides"
+          },
+          "500": {
+            "description": "Erreur lors de l'authentification de l'utilisateur"
+          }
+        }
+      }
+    },
+    "/classify": {
+      "post": {
+        "summary": "Classify an image file 🚀.",
+        "description": "This route accepts an image file in JPEG format, validates the file, and streams it to a gRPC server for classification. The user must be authenticated.",
+        "tags": [
+          "Classify"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "image/jpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/jpg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image classified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "class_name": {
+                      "type": "string",
+                      "description": "The classification result"
+                    },
+                    "confidence": {
+                      "type": "number",
+                      "description": "The confidence level of the classification"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, bearer token missing or invalid"
+          },
+          "413": {
+            "description": "File too large"
+          },
+          "415": {
+            "description": "Unsupported media type"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/models": {
+      "get": {
+        "summary": "Récupère la liste des modèles 🚀.",
+        "description": "Appelle le service gRPC pour récupérer la liste des modèles disponibles.",
+        "responses": {
+          "200": {
+            "description": "Liste des modèles récupérée avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Le nom du modèle"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "La description du modèle"
+                      },
+                      "version": {
+                        "type": "string",
+                        "description": "La version du modèle"
+                      },
+                      "accuracy": {
+                        "type": "number",
+                        "description": "La précision du modèle"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur lors du traitement de la requête."
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Liste tous les utilisateurs",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des utilisateurs récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "L'ID de l'utilisateur"
+                      },
+                      "username": {
+                        "type": "string",
+                        "description": "Le nom d'utilisateur"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "L'adresse email de l'utilisateur"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur lors de la récupération de la liste des utilisateurs"
+          }
+        }
+      }
+    },
+    "/whoami": {
+      "get": {
+        "summary": "Récupère les informations de l'utilisateur authentifié",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informations de l'utilisateur récupérées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "L'ID de l'utilisateur"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "Le nom d'utilisateur"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "L'adresse email de l'utilisateur"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé"
+          },
+          "500": {
+            "description": "Erreur lors de la récupération des informations de l'utilisateur"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "API pour l'authentification des utilisateurs"
+    },
+    {
+      "name": "Classify",
+      "description": "API pour classifier des fichiers"
+    },
+    {
+      "name": "Users",
+      "description": "API pour gérer les utilisateurs"
+    }
+  ]
+}
