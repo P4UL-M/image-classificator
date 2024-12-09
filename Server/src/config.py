@@ -1,4 +1,5 @@
 import pathlib
+import keras
 
 ML_MODELS: list[dict[str, str | dict | int]] = [
     {
@@ -7,7 +8,7 @@ ML_MODELS: list[dict[str, str | dict | int]] = [
         "file": "vgg-3.h5",
         "preprocessing": {
             "resize": (32, 32),
-            "normalize": 1 / 255.0
+            "normalize": lambda x: x / 255.0
         },
         "classes": [
             "airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"
@@ -21,7 +22,7 @@ ML_MODELS: list[dict[str, str | dict | int]] = [
         "file": "vgg-5.h5",
         "preprocessing": {
             "resize": (32, 32),
-            "normalize": 1 / 255.0
+            "normalize": lambda x: x / 255.0
         },
         "classes": [
             'apple', 'aquarium_fish', 'baby', 'bear', 'beaver', 'bed', 'bee', 'beetle', 'bicycle', 'bottle',
@@ -44,7 +45,7 @@ ML_MODELS: list[dict[str, str | dict | int]] = [
         "file": "resnet.keras",
         "preprocessing": {
             "resize": (32, 32),
-            "normalize": 1 / 255.0
+            "normalize": keras.applications.resnet50.preprocess_input
         },
         "classes": [
             "airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"

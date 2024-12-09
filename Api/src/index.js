@@ -10,6 +10,7 @@ const loggerMiddleware = require('./middlewares/logger.middleware');
 const { logger } = require('./utils/logger');
 const http = require('http');
 const { grpcClient } = require('./services/grpc.service');
+const storeRouter = require('./routes/store');
 
 const allowedOrigins = [
     'http://localhost:5173',  // For REACT server
@@ -39,6 +40,7 @@ app.use(cors(corsOptions))
     .use(classifyRouter)
     .use(userRouter)
     .use(modelRouter)
+    .use(storeRouter)
     .use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Export the HTTP server for testing

@@ -13,9 +13,9 @@ const SALT_ROUNDS = process.env.SALT_ROUNDS || 10;
  * @param {string} password - Le mot de passe de l'utilisateur.
  * @returns {Promise<object>} L'utilisateur créé.
  */
-async function createUser(username, email, password) {
+async function createUser({ username, email, password }, options) {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-    return sequelize.models.user.create({ username, email, password: hashedPassword });
+    return sequelize.models.user.create({ username, email, password: hashedPassword }, options);
 }
 
 /**
@@ -67,4 +67,14 @@ async function listUsers() {
     return sequelize.models.user.findAll({ attributes: { exclude: ['password'] } });
 }
 
-module.exports = { createUser, getUser, authenticateUser, getUserFromToken, listUsers };
+async function updateUserBalance(id, amount, options) {
+    const user = await sequelize.models.user.findByPk(id);
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    user.balance += amount;
+    return user.save(options);
+}
+
+module.exports = { createUser, getUser, authenticateUser, getUserFromToken, listUsers, updateUserBalance };

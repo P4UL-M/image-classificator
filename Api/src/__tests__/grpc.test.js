@@ -48,15 +48,21 @@ describe('POST /classify', () => {
             .expect(200)
             .then(async (res) => {
                 return await request(app)
-                    .post('/classify')
+                    .get('/token?' + new URLSearchParams({ scopes: 'classify:images' }))
                     .set('Authorization', `Bearer ${res.body.token}`)
-                    .set('Content-Type', 'image/jpeg')
-                    .send('test')
                     .expect(200)
-                    .expect((res) => {
-                        expect(res.body).toEqual({ class_name: 'test', confidence: 0.9 });
-                    }
-                    );
+                    .then(async (res) => {
+                        return await request(app)
+                            .post('/classify')
+                            .set('Authorization', `Bearer ${res.body.token}`)
+                            .set('Content-Type', 'image/jpeg')
+                            .send('test')
+                            .expect(200)
+                            .expect((res) => {
+                                expect(res.body).toEqual({ class_name: 'test', confidence: 0.9 });
+                            }
+                            );
+                    })
             });
     });
     it('Should return 415 Unsupported Media Type', async () => {
@@ -69,10 +75,16 @@ describe('POST /classify', () => {
             .expect(200)
             .then(async (res) => {
                 return await request(app)
-                    .post('/classify')
+                    .get('/token?' + new URLSearchParams({ scopes: 'classify:images' }))
                     .set('Authorization', `Bearer ${res.body.token}`)
-                    .send('test')
-                    .expect(415);
+                    .expect(200)
+                    .then(async (res) => {
+                        return await request(app)
+                            .post('/classify')
+                            .set('Authorization', `Bearer ${res.body.token}`)
+                            .send('test')
+                            .expect(415);
+                    });
             });
     });
     it('Should return 401 Unauthorized', async () => {
@@ -81,6 +93,29 @@ describe('POST /classify', () => {
             .set('Content-Type', 'image/jpeg')
             .send('test')
             .expect(401);
+    });
+    it('Should return 403 Forbidden', async () => {
+        return await request(app)
+            .post('/login')
+            .send({
+                email: 'user1@email.com',
+                password: 'password1'
+            })
+            .expect(200)
+            .then(async (res) => {
+                return await request(app)
+                    .get('/token?' + new URLSearchParams({ scopes: 'train:images' }))
+                    .set('Authorization', `Bearer ${res.body.token}`)
+                    .expect(200)
+                    .then(async (res) => {
+                        return await request(app)
+                            .post('/classify')
+                            .set('Authorization', `Bearer ${res.body.token}`)
+                            .set('Content-Type', 'image/jpeg')
+                            .send('test')
+                            .expect(403);
+                    })
+            });
     });
 });
 

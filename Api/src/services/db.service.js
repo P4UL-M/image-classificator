@@ -17,4 +17,17 @@ async function connectToDatabase() {
     }
 }
 
+async function transaction(callback) {
+    const t = await sequelize.transaction();
+    try {
+        await callback(t);
+        await t.commit();
+    } catch (error) {
+        await t.rollback();
+        logger.error('Error in transaction: ' + error.message || error);
+        throw error;
+    }
+}
+
 exports.connectToDatabase = connectToDatabase;
+exports.transaction = transaction;

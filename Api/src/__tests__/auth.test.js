@@ -2,8 +2,9 @@ const request = require('supertest');
 const app = require('../index');
 const { httpServerApp } = require('../index');
 const { logger } = require('../utils/logger');
+const { sequelize } = require('../../models/index.js');
 
-beforeAll(() => {
+beforeAll(async () => {
     logger.transports.forEach((t) => (t.silent = true));
 });
 
@@ -83,6 +84,8 @@ describe('POST /login', () => {
 });
 
 // Close the server after all tests
-afterAll(() => {
+afterAll(async () => {
     httpServerApp.close();
+    await sequelize.query('DELETE FROM users WHERE email LIKE \'test%\'');
+    await sequelize.close();
 });

@@ -7,6 +7,8 @@ services:
             - mongo-data:/data/configdb
         networks:
             - image_classificator
+        ports:
+            - "27017:27017"
     grpc-server:
         build: ./Server
         container_name: grpc-server

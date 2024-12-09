@@ -3,6 +3,7 @@ const protoLoader = require('@grpc/proto-loader');
 const fs = require('fs');
 const path = require('path');
 const { logger } = require('../utils/logger.js');
+const { updateUserBalance } = require('./user.service.js');
 
 const PROTO_PATH = path.join(__dirname, '../../protos/mlService.proto');
 const PORT = process.env.GRPC_PORT || 9090;
@@ -68,13 +69,14 @@ function classifyFileWithPath(client, file) {
  * @param {import('express').Response} res - The Express response object.
  */
 function classifyFileWithStream(client, req, res) {
-    const call = client.ClassifyFile((error, response) => {
+    const call = client.ClassifyFile(async (error, response) => {
         if (res.headersSent) return;
         if (error) {
             logger.error(error);
             res.status(500).send('Error processing request:' + error.message || error);
         } else {
             logger.info("Response received from ML server");
+            await updateUserBalance(req.user.id, -1);
             res.status(200).send(response);
         }
     });

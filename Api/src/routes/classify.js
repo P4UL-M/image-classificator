@@ -54,16 +54,18 @@
  *         description: Internal server error
  */
 const express = require('express');
-const authMiddleware = require('../middlewares/auth.middleware.js');
 const { validateFileTypeAndSize } = require('../middlewares/file.middleware.js');
 const { classifyFileWithStream, grpcClient } = require('../services/grpc.service.js');
 const { logger } = require('../utils/logger.js');
+const scopesMiddleware = require('../middlewares/scope.middleware.js');
+const { updateUserBalance } = require('../services/user.service.js');
+const authMiddleware = require('../middlewares/auth.middleware.js');
 
 const classifyRouter = express.Router();
+const scopesValidation = scopesMiddleware('classify:images');
 
-classifyRouter.post('/classify', authMiddleware, validateFileTypeAndSize, (req, res) => {
+classifyRouter.post('/classify', authMiddleware, scopesValidation, validateFileTypeAndSize, (req, res) => {
     try {
-        // Directly pass the request stream (req) to the classifyFileWithStream function
         classifyFileWithStream(grpcClient, req, res);
     } catch (err) {
         logger.error('Error processing request: ' + err.message || err);
