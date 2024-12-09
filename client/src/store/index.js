@@ -3,7 +3,7 @@ import { loadState, saveState } from './sessionStorage';
 
 const persistState = loadState();
 
-const initialState = persistState ? persistState : {
+const initialState = persistState || {
     isConnected: false,
     token: null,
     user: {

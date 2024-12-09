@@ -1,6 +1,8 @@
 import logging
 import pathlib
 from typing import AsyncIterator, override
+
+from numpy import ndarray
 import generated.mlService_pb2_grpc as ml_grpc
 from generated.mlService_pb2 import FileRequest, ClassificationResponse, ModelListResponse, Model, Empty
 import grpc
@@ -93,8 +95,8 @@ class mlServer(ml_grpc.ImageClassificatorServicer):
         """Loads, preprocesses the image, and predicts the class using the loaded model."""
         img = preprocessing.image.load_img(image_path, target_size=model_config['preprocessing']['resize']
                                            )  # Ensure image size matches the model input size
-        img_array = preprocessing.image.img_to_array(
-            img) * model_config['preprocessing']['normalize']
+        img_array = preprocessing.image.img_to_array(img)
+        img_array = model_config['preprocessing']['normalize'](img_array)
         img_array = tf.expand_dims(img_array, axis=0)  # Add batch dimension
 
         # Make predictions using the model
